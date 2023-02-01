@@ -47,3 +47,22 @@ This function would return a value of `true` or `false` based on its parameters.
 
 ## Control Flow
 ### Looping
+In terms of `for` loops, MarioKart runs like the following:
+```
+time trial from lap 0 to 18 by 2 {
+ ...
+}
+```
+In this example, a for loop is running from 0 to 18 (inclusive), while incrementing by 2.
+
+In terms of `while` loops, MarioKart runs like the following:
+```
+time trial to lap 18 {
+ ...
+ lap increase 1
+}
+```
+This loop just goes iterates by 1 until it gets to 18 (inclusive).
+
+### Conditionals
+Condition
