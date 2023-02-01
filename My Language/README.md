@@ -145,3 +145,6 @@ To clear an entire `garage`, use the following command:
 | time trial | for / while |
 | summon | func |
 | requires | () |
+| first | if |
+| second | else if |
+| last | else |
