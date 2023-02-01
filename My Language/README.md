@@ -119,9 +119,18 @@ To access a specific space in a `garage`, use the following syntax:
 ```enemy1Stats[3];```
 
 ## Built-in Functions
+### rob
 To delete a specific space in a `garage`, use the following command:
+
 ```rob enemy1Stats[3];```
+
 This initializes a `garage` of length `7`.
 
+### setAblaze
 To clear an entire `garage`, use the following command:
+
 ```setAblaze enemy1Stats;```
+
+### ???
+
+`blueshell enemy1Stats;`
