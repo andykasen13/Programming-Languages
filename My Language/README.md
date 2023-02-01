@@ -137,7 +137,7 @@ To clear an entire `garage`, use the following command:
 
 `blueshell enemy1Stats;`
 
-## Keywords
+Keywords
 | keyword | java alternative |
 | ------- | ---------------- |
 | spawn | new |
