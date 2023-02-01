@@ -1,4 +1,4 @@
-# Welcome to GameStyle.
+# Welcome to MarioKart.
 
  Created in Spring 2023 by Andy Garcha at an unknown school in Atlanta, GA.
 
@@ -65,4 +65,43 @@ time trial to lap 18 {
 This loop just goes iterates by 1 until it gets to 18 (inclusive).
 
 ### Conditionals
-Condition
+Conditionals are written like this:
+```
+first "x1 = 15" {
+ return "correct!";
+}
+second "x1 > 15" {
+ return "too high!";
+}
+last {
+ return "too low!";
+}
+```
+
+For MarioKart, `first` acts as `if`, `second`, `third`, `fourth`, and so on acts as `else if`, and `last` acts as `else`.
+
+## Operators
+| Java Operator | MK Operator |
+| ----------- | ----------- |
+| = | ties with |
+| + | boost |
+| - | slip |
+| * | super star |
+| / | blue shell |
+| % | % |
+| += | multi mushroom |
+| -= | red shell |
+| **= | golden mushroom |
+| /= | fall off the map |
+| ++ | overtake |
+| -- | get passed |
+| ! | not |
+| == | is tied with |
+| != | is not tied with |
+| > | is further than |
+| >= | is better than |
+| < | is behind |
+| <= | is worse than |
+| && | and |
+| || | or 
+
