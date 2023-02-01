@@ -35,3 +35,15 @@ else return false;
 ```
 This function takes in four ints, and returns a boolean. The `requires` keyword is how you signify parameters in GameStyle - if your function has no parameters, you do not need this keyword whatsoever.
 
+### Calling Functions
+The `summon` keyword initiates a function call. Example:
+```summon collision using enemy1x, enemy2x, enemy1y, enemy2y {
+ if x1 == x2 and y1 == y2 return true;
+ else return false;
+}
+```
+Again, the `using` keyword is only used if the function has parameters.
+This function would return a value of `true` or `false` based on its parameters.
+
+## Control Flow
+### Looping
