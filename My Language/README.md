@@ -28,7 +28,8 @@ Casting and type-switching are not allowed in GameStyle.
 ## Functions
 ### Defining a Function
 Defining a function in GameStyle requires an output type, a name, and optional parameters (each with their own types). Example:
-```boolean collision requires int x1, int x2, int y1, int y2 {
+```
+boolean collision requires int x1, int x2, int y1, int y2 {
 if x1 == x2 and y1 == y2 return true;
 else return false;
 }
@@ -37,7 +38,8 @@ This function takes in four ints, and returns a boolean. The `requires` keyword 
 
 ### Calling Functions
 The `summon` keyword initiates a function call. Example:
-```summon collision using enemy1x, enemy2x, enemy1y, enemy2y {
+```
+summon collision using enemy1x, enemy2x, enemy1y, enemy2y {
  if x1 == x2 and y1 == y2 return true;
  else return false;
 }
