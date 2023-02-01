@@ -80,7 +80,7 @@ last {
 
 For MarioKart, `first` acts as `if`, `second`, `third`, `fourth`, and so on acts as `else if`, and `last` acts as `else`.
 
-## Operators
+## Operators and Comparators
 | Java Operator | MK Operator |
 | ----------- | ----------- |
 | = | ties with |
@@ -105,3 +105,23 @@ For MarioKart, `first` acts as `if`, `second`, `third`, `fourth`, and so on acts
 | && | and |
 | || | or 
 
+## Collections
+### Creation
+MarioKart uses `garages` to store variables. `garage`s are not restricted to a type.
+`garage enemy1Stats[7];`
+
+### Modification
+To modify a specific space in a `garage`, use the following syntax:
+```enemy1Stats[3] = "defeated";```
+
+### Access and Deletion
+To access a specific space in a `garage`, use the following syntax:
+```enemy1Stats[3];```
+
+## Built-in Functions
+To delete a specific space in a `garage`, use the following command:
+```rob enemy1Stats[3];```
+This initializes a `garage` of length `7`.
+
+To clear an entire `garage`, use the following command:
+```setAblaze enemy1Stats;```
