@@ -134,3 +134,12 @@ To clear an entire `garage`, use the following command:
 ### ???
 
 `blueshell enemy1Stats;`
+
+## Keywords
+| keyword | java alternative |
+| ------- | ---------------- |
+| spawn | new |
+| garage | array |
+| time trial | for / while |
+| summon | func |
+| requires | () |
