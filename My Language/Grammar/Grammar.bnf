@@ -1,6 +1,8 @@
-program ::= statement?
+program ::= statementList
 
-statement ::= expression
+statementList ::= statement+
+
+statement ::= functionCall
             | functionCall
             | assignment
             | conditionalStatement
@@ -18,4 +20,6 @@ binaryExpression ::=
 
 dataType ::= "String" | "int" | "float" | "boolean" | "char"
 
-primary ::= dataType && VALUE
+primary ::= NUMBER
+          | STRING
+          | 
