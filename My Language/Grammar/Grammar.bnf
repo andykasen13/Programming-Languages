@@ -25,4 +25,12 @@ primary ::= NUMBER
 
 assignment ::= variable "=" primary
 
-conditionalStatement ::= "if" "(" expression ")"
+conditionalStatement ::= "if" "(" expression ")" "{" statement+ "}"
+
+loopStatement ::= "while" "(" expression ")" "{" statement+ "}"
+
+variableDeclaration ::= dataType variableName ";"
+
+variableName ::= STRING
+
+initialization ::= dataType variableName "=" primary ";"
