@@ -1,7 +1,13 @@
 program ::= statement?
 
 statement ::= expression
-            | 
+            | functionCall
+            | assignment
+            | conditionalStatement
+            | loopStatement
+            | functionDefinition
+            | initialization
+            | variableDeclaration
 
 expression ::= binaryExpression
              | ternaryExpression
