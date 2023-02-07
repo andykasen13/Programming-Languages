@@ -10,5 +10,6 @@ expression ::= binaryExpression
 
 binaryExpression ::= 
 
-dataTypes ::= "String" | "int" | "float" | "boolean" | "char"
+dataType ::= "String" | "int" | "float" | "boolean" | "char"
 
+primary ::= dataType && VALUE
