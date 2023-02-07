@@ -1,1 +1,14 @@
+program ::= statement?
+
+statement ::= expression
+            | 
+
+expression ::= binaryExpression
+             | ternaryExpression
+             | primary
+             | unaryExpression
+
+binaryExpression ::= 
+
+dataTypes ::= "String" | "int" | "float" | "boolean" | "char"
 
