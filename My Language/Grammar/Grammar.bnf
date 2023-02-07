@@ -3,7 +3,6 @@ program ::= statementList
 statementList ::= statement+
 
 statement ::= functionCall
-            | functionCall
             | assignment
             | conditionalStatement
             | loopStatement
@@ -23,3 +22,7 @@ dataType ::= "String" | "int" | "float" | "boolean" | "char"
 primary ::= NUMBER
           | STRING
           | 
+
+assignment ::= variable "=" primary
+
+conditionalStatement ::= "if" "(" expression ")"
