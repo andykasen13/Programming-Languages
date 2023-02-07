@@ -34,3 +34,7 @@ variableDeclaration ::= dataType variableName ";"
 variableName ::= STRING
 
 initialization ::= dataType variableName "=" primary ";"
+
+functionCall ::= functionName "(" parameter* ")" ";"
+
+functionName ::= STRING
