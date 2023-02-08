@@ -2,6 +2,8 @@ program ::= statementList
 
 statementList ::= statement+
 
+block ::= "{" statementList "}"
+
 statement ::= functionCall
             | assignment
             | conditionalStatement
@@ -15,19 +17,31 @@ expression ::= binaryExpression
              | primary
              | unaryExpression
 
-binaryExpression ::= 
+binaryExpression ::= primary binaryOperator primary ";"
+
+binaryOperator ::= simpleMathOperator | comparator | booleanOperators
+
+simpleMathOperator ::= "+" | "-" | "*" | "/" | "%"
 
 dataType ::= "String" | "int" | "float" | "boolean" | "char"
 
+comparator ::= ">" | "<" | ">=" | "<=" | "==" | "!="
+
+unaryExpression ::= primary unaryExpression ";"
+
+unaryOperator ::= "++" | "--" | "!"
+
 primary ::= NUMBER
           | STRING
-          | 
+          | IDENTIFIER
+          | booleanLiteral
+          | functionCall
 
 assignment ::= variable "=" primary
 
-conditionalStatement ::= "if" "(" expression ")" "{" statement+ "}"
+conditionalStatement ::= "if" "(" expression ")" block
 
-loopStatement ::= "while" "(" expression ")" "{" statement+ "}"
+loopStatement ::= "while" "(" expression ")" block
 
 variableDeclaration ::= dataType variableName ";"
 
