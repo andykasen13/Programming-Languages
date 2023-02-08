@@ -13,23 +13,43 @@ statement ::= functionCall
             | variableDeclaration
 
 expression ::= binaryExpression
-             | ternaryExpression
              | primary
              | unaryExpression
+             | parenthesizedExpression
+
+parenthesizedExpression ::= "(" expression ")" ";"
 
 binaryExpression ::= primary binaryOperator primary ";"
 
-binaryOperator ::= simpleMathOperator | comparator | booleanOperators
+binaryOperator ::= simpleMathOperator 
+                 | comparator 
+                 | booleanOperators
 
-simpleMathOperator ::= "+" | "-" | "*" | "/" | "%"
+simpleMathOperator ::= "+" 
+                     | "-" 
+                     | "*" 
+                     | "/" 
+                     | "%"
 
-dataType ::= "String" | "int" | "float" | "boolean" | "char"
+unaryPostOperator ::= "++" 
+                    | "--"
+
+unaryPreOperator ::= "!" 
+                   | "-"
+
+booleanOperators ::= "&" 
+                   | "|"
+
+dataType ::= "String" 
+           | "int" 
+           | "float" 
+           | "boolean" 
+           | "char"
 
 comparator ::= ">" | "<" | ">=" | "<=" | "==" | "!="
 
-unaryExpression ::= primary unaryExpression ";"
-
-unaryOperator ::= "++" | "--" | "!"
+unaryExpression ::= primary unaryPostOperator ";"
+                  | unaryPreOperator primary ";"
 
 primary ::= NUMBER
           | STRING
@@ -37,18 +57,14 @@ primary ::= NUMBER
           | booleanLiteral
           | functionCall
 
-assignment ::= variable "=" primary
+assignment ::= IDENTIFIER "=" primary
 
 conditionalStatement ::= "if" "(" expression ")" block
 
 loopStatement ::= "while" "(" expression ")" block
 
-variableDeclaration ::= dataType variableName ";"
-
-variableName ::= STRING
+variableDeclaration ::= dataType IDENTIFIER ";"
 
 initialization ::= dataType variableName "=" primary ";"
 
-functionCall ::= functionName "(" parameter* ")" ";"
-
-functionName ::= STRING
+functionCall ::= IDENTIFIER "(" parameter* ")" ";"
