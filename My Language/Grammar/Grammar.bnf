@@ -17,7 +17,7 @@ expression ::= binaryExpression
              | unaryExpression
              | parenthesizedExpression
 
-parenthesizedExpression ::= "(" expression ")" ";"
+parenthesizedExpression ::= "(" expression* ")" ";"
 
 binaryExpression ::= primary binaryOperator primary ";"
 
@@ -62,9 +62,12 @@ assignment ::= IDENTIFIER "=" primary
 conditionalStatement ::= "if" "(" expression ")" block
 
 loopStatement ::= "while" "(" expression ")" block
+                | "for" "(" expression ")" block
 
 variableDeclaration ::= dataType IDENTIFIER ";"
 
 initialization ::= dataType variableName "=" primary ";"
 
 functionCall ::= IDENTIFIER "(" parameter* ")" ";"
+
+functionDefinition ::= dataType IDENTIFIER "(" (dataType IDENTIFIER)* ")" block
