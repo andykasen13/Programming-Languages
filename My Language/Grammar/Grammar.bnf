@@ -25,6 +25,24 @@ binaryOperator ::= simpleMathOperator
                  | comparator 
                  | booleanOperators
 
+unaryExpression ::= primary unaryPostOperator ";"
+                  | unaryPreOperator primary ";"
+
+assignment ::= IDENTIFIER "=" primary
+
+conditionalStatement ::= "if" "(" expression ")" block
+
+loopStatement ::= "while" "(" expression ")" block
+                | "for" "(" expression ")" block
+
+variableDeclaration ::= dataType IDENTIFIER ";"
+
+initialization ::= dataType variableName "=" primary ";"
+
+functionCall ::= IDENTIFIER "(" parameter* ")" ";"
+
+functionDefinition ::= dataType IDENTIFIER "(" (dataType IDENTIFIER)* ")" block
+
 simpleMathOperator ::= "+" 
                      | "-" 
                      | "*" 
@@ -48,26 +66,8 @@ dataType ::= "String"
 
 comparator ::= ">" | "<" | ">=" | "<=" | "==" | "!="
 
-unaryExpression ::= primary unaryPostOperator ";"
-                  | unaryPreOperator primary ";"
-
 primary ::= NUMBER
           | STRING
           | IDENTIFIER
           | booleanLiteral
           | functionCall
-
-assignment ::= IDENTIFIER "=" primary
-
-conditionalStatement ::= "if" "(" expression ")" block
-
-loopStatement ::= "while" "(" expression ")" block
-                | "for" "(" expression ")" block
-
-variableDeclaration ::= dataType IDENTIFIER ";"
-
-initialization ::= dataType variableName "=" primary ";"
-
-functionCall ::= IDENTIFIER "(" parameter* ")" ";"
-
-functionDefinition ::= dataType IDENTIFIER "(" (dataType IDENTIFIER)* ")" block
