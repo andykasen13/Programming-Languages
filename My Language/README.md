@@ -148,3 +148,6 @@ Keywords
 | first | if |
 | second | else if |
 | last | else |
+
+### Google Sheet
+https://docs.google.com/spreadsheets/d/1sydhecTJOR_gCx7WWyMLkqbHQ5fe810liVykVgWQfjI/edit?usp=sharing
