@@ -18,7 +18,6 @@ statement ::= functionCall
 expression ::= binaryExpression
              | primary
              | unaryExpression
-             | parenthesizedExpression
 
 parenthesizedExpression ::= "(" expression* ")" ";"
 
@@ -40,7 +39,7 @@ loopStatement ::= "while" "(" expression ")" block
 
 variableDeclaration ::= dataType IDENTIFIER ";"
 
-initialization ::= dataType variableName "=" primary ";"
+initialization ::= dataType IDENTIFIER "=" primary ";"
 
 functionCall ::= IDENTIFIER "(" parameter* ")" ";"
 
@@ -74,3 +73,6 @@ primary ::= NUMBER
           | IDENTIFIER
           | booleanLiteral
           | functionCall
+          | parenthesizedExpression
+          
+booleanLiteral ::= "false" | "true"

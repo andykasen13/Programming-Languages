@@ -85,7 +85,7 @@ For MarioKart, `first` acts as `if`, `second`, `third`, `fourth`, and so on acts
 ## Operators and Comparators
 | Java Operator | MK Operator |
 | ----------- | ----------- |
-| = | ties with |
+| `=` | `ties with` |
 | + | boost |
 | - | slip |
 | * | super star |
@@ -148,3 +148,6 @@ Keywords
 | first | if |
 | second | else if |
 | last | else |
+
+### Google Sheet
+https://docs.google.com/spreadsheets/d/1sydhecTJOR_gCx7WWyMLkqbHQ5fe810liVykVgWQfjI/edit?usp=sharing
