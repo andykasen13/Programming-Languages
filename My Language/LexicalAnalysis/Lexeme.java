@@ -1,5 +1,7 @@
 package LexicalAnalysis;
 
+import java.util.ArrayList;
+
 public class Lexeme {
     //Instance Variables
     private final Types type;
@@ -9,6 +11,7 @@ public class Lexeme {
     private String word;
     private int intValue;
     private boolean boolValue;
+    private Object[] arrayValue;
 
     //-----------Constructors-------------
     public Lexeme(int lineNumber, Types type) {
@@ -34,6 +37,12 @@ public class Lexeme {
         this.type = type;
     }
 
+    public Lexeme(int lineNumber, Object[] arrayValue, Types type) {
+        this.lineNumber = lineNumber;
+        this.arrayValue = arrayValue;
+        this.type = type;
+    }
+
     //---------Getters and Setters------------
     public int getIntValue() {
         return intValue;
@@ -49,6 +58,9 @@ public class Lexeme {
     }
     public Types getType() {
         return type;
+    }
+    public Object[] getArrayValue() {
+        return arrayValue;
     }
 
     public void setIntValue(int intValue) {
@@ -66,12 +78,18 @@ public class Lexeme {
     public void setType(Types type) {
         this.type = type;
     }
+    public void setArrayValue(Object[] arrayValue) {
+        this.arrayValue = arrayValue;
+    }
 
     //--------toString-----------
     public String toString() {
-        System.out.println("Lexeme of type" + type + "and line number " + lineNumber);
-        System.out.println("Boolean value: " + boolValue);
-        System.out.println("Integer Value: " + intValue);
-        System.out.println("String value: " + word);
+        String stringNow = "";
+        stringNow.concat("Lexeme of type" + type + "and line number " + lineNumber);
+        stringNow.concat("\nBoolean value: " + boolValue);
+        stringNow.concat("\nInteger Value: " + intValue);
+        stringNow.concat("\nString value: " + word);
+        stringNow.concat("\nArray value: " + arrayValue);
+        return(stringNow);
     }
 }
