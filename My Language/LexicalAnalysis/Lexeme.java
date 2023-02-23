@@ -3,10 +3,12 @@ package LexicalAnalysis;
 public class Lexeme {
     //Instance Variables
     private final Types type;
+    private int lineNumber;
+
+    //------Instance Variable Declaration------
     private String word;
     private int intValue;
     private boolean boolValue;
-    private int lineNumber;
 
     //-----------Constructors-------------
     public Lexeme(int lineNumber, Types type) {
