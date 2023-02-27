@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import MarioKart.MarioKart;
+import static MarioKart.LexicalAnalysis.Types.*;
 
 public class Lexer {
     //--------------------- Instance Variables ----------------------
@@ -20,56 +21,55 @@ public class Lexer {
     private HashMap<String, Types> getKeywords() {
         HashMap<String, Types> keywords = new HashMap<>();
 
-        keywords.put("requires", Types.REQUIRES);
-        keywords.put("summon", Types.SUMMON);
-        keywords.put("using", Types.USING);
-        keywords.put("garage", Types.GARAGE);
+        keywords.put("requires", REQUIRES);
+        keywords.put("summon", SUMMON);
+        keywords.put("using", USING);
+        keywords.put("garage", GARAGE);
 
-        keywords.put("first", Types.FIRST);
-        keywords.put("second", Types.SECOND);
-        keywords.put("third", Types.THIRD);
-        keywords.put("fourth", Types.FOURTH);
-        keywords.put("fifth", Types.FIFTH);
-        keywords.put("sixth", Types.SIXTH);
-        keywords.put("seventh", Types.SEVENTH);
-        keywords.put("eighth", Types.EIGHTH);
-        keywords.put("ninth", Types.NINTH);
-        keywords.put("tenth", Types.TENTH);
-        keywords.put("eleventh", Types.ELEVENTH);
-        keywords.put("twelfth", Types.TWELFTH);
-        keywords.put("last", Types.LAST);
+        keywords.put("first", FIRST);
+        keywords.put("second", SECOND);
+        keywords.put("third", THIRD);
+        keywords.put("fourth", FOURTH);
+        keywords.put("fifth", FIFTH);
+        keywords.put("sixth", SIXTH);
+        keywords.put("seventh", SEVENTH);
+        keywords.put("eighth", EIGHTH);
+        keywords.put("ninth", NINTH);
+        keywords.put("tenth", TENTH);
+        keywords.put("eleventh", ELEVENTH);
+        keywords.put("twelfth", TWELFTH);
+        keywords.put("last", LAST);
 
-        keywords.put("int", Types.INT);
-        keywords.put("string", Types.STRING);
-        keywords.put("boolean", Types.BOOLEAN);
+        keywords.put("int", INT);
+        keywords.put("string", STRING);
+        keywords.put("boolean", BOOLEAN);
 
-        keywords.put("(", Types.OPEN_PARENTHESIS);
-        keywords.put(")", Types.CLOSED_PARENTHESIS);
-        keywords.put("[", Types.OPEN_BRACKET);
-        keywords.put("]", Types.CLOSED_BRACKET);
-        keywords.put(";", Types.SEMICOLON);
+        keywords.put("(", OPEN_PARENTHESIS);
+        keywords.put(")", CLOSED_PARENTHESIS);
+        keywords.put("[", OPEN_BRACKET);
+        keywords.put("]", CLOSED_BRACKET);
+        keywords.put(";", SEMICOLON);
 
-        keywords.put("+", Types.PLUS);
-        keywords.put("-", Types.MINUS);
-        keywords.put("*", Types.TIMES);
-        keywords.put("/", Types.DIVIDED_BY);
-        keywords.put("%", Types.MOD);
-        keywords.put("+=", Types.PLUS_EQUALS);
-        keywords.put("-=", Types.MINUS_EQUALS);
-        keywords.put("*=", Types.TIMES_EQUALS);
-        keywords.put("/=", Types.DIVIDED_EQUALS);
-        keywords.put("++", Types.PLUS_PLUS);
-        keywords.put("--", Types.MINUS_MINUS);
-        keywords.put("!", Types.NOT);
-        keywords.put("==", Types.EQUALS_EQUALS_);
-        keywords.put("!=", Types.NOT_EQUALS);
-        keywords.put(">", Types.GREATER_THAN);
-        keywords.put("<", Types.LESS_THAN);
-        keywords.put(">=", Types.GREATER_THAN_OR_EQUAL_TO);
-        keywords.put("<+=", Types.LESS_THAN_OR_EQUAL_TO);
-        keywords.put("&&", Types.AND);
-        keywords.put("||", Types.OR);
-
+        keywords.put("+", PLUS);
+        keywords.put("-", MINUS);
+        keywords.put("*", TIMES);
+        keywords.put("/", DIVIDED_BY);
+        keywords.put("%", MOD);
+        keywords.put("+=", PLUS_EQUALS);
+        keywords.put("-=", MINUS_EQUALS);
+        keywords.put("*=", TIMES_EQUALS);
+        keywords.put("/=", DIVIDED_EQUALS);
+        keywords.put("++", PLUS_PLUS);
+        keywords.put("--", MINUS_MINUS);
+        keywords.put("!", NOT);
+        keywords.put("==", EQUALS_EQUALS_);
+        keywords.put("!=", NOT_EQUALS);
+        keywords.put(">", GREATER_THAN);
+        keywords.put("<", LESS_THAN);
+        keywords.put(">=", GREATER_THAN_OR_EQUAL_TO);
+        keywords.put("<+=", LESS_THAN_OR_EQUAL_TO);
+        keywords.put("&&", AND);
+        keywords.put("||", OR);
 
         return keywords;
     }
@@ -131,4 +131,38 @@ public class Lexer {
     private void error(String message) {
         MarioKart.syntaxError(message, lineNumber);
     }
+
+    //----------------------- lex() function ----------------------------
+    public ArrayList<Lexeme> lex() {
+        while(!isAtEnd()) {
+            startOfCurrentLexeme = currentPosition;
+            Lexeme nextLexeme = getNextLexeme();
+            if(nextLexeme != null) lexemes.add(nextLexeme);
+        }
+        
+        lexemes.add(new Lexeme(lineNumber, END_OF_FILE));
+        return lexemes;
+    }
+
+    // --------------------- lex Helper Functions ---------------------------
+    private Lexeme getNextLexeme() {
+        char c = advance();
+        switch(c) {
+            //Ignore whitespace
+            case ' ', '\t', '\n', '\r' -> {
+                return null;
+            }
+
+            case '[' -> { return new Lexeme(lineNumber, OPEN_BRACKET); }
+            case ']' -> { return new Lexeme(lineNumber, CLOSED_BRACKET); }
+            case '(' -> { return new Lexeme(lineNumber, OPEN_PARENTHESIS); }
+            case ')' -> { return new Lexeme(lineNumber, CLOSED_PARENTHESIS); }
+            case '.' -> { return new Lexeme(lineNumber, DOT); }
+            case ',' -> { return new Lexeme(lineNumber, COMMA); }
+
+            //Put more cases here later :)
+        }
+    }
+
+
 }

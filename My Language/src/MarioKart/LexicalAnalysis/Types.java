@@ -2,7 +2,7 @@ package MarioKart.LexicalAnalysis;
 
 public enum Types {
     //---------Keywords----------
-    REQUIRES, RETURN, SUMMON, USING, GARAGE,
+    REQUIRES, RETURN, SUMMON, USING, GARAGE, END_OF_FILE,
 
     //-----------Loop------------
     FROM, TO,
@@ -20,7 +20,7 @@ public enum Types {
     //---Single-Character Tokens---
     OPEN_PARENTHESIS, CLOSED_PARENTHESIS,
     OPEN_BRACKET, CLOSED_BRACKET,
-    SEMICOLON, 
+    SEMICOLON, DOT, COMMA,
 
     //----------Operators----------
     PLUS, MINUS, TIMES, DIVIDED_BY, MOD, 
