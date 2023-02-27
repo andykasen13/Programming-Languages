@@ -34,4 +34,42 @@ public class MarioKart {
         ArrayList<Lexeme> lexemes = lexer.lex();
         System.out.println(lexemes);
     }
+
+    //--------------Error Reporting-------------
+
+    private static final ArrayList<String> syntaxErrorMessages = new ArrayList<>();
+    private static final ArrayList<String> runtimeErrorMessages = new ArrayList<>();
+
+    public static void syntaxError(String message, int lineNumber) {
+        syntaxErrorMessages.add("Syntax error (line " + lineNumber + "): " + message);
+    }
+
+    public static void syntaxError(String message, Lexeme lexeme) {
+        syntaxErrorMessages.add("Syntax error at " + lexeme + " : " + message);
+    }
+
+    public static void runtimeError(String message, Lexeme lexeme) {
+        runtimeErrorMessages.add("Runtime error at " + lexeme ". " + message);
+        printErrors();
+        System.exit(65);
+    }
+
+    public static void runtimeError(String message, int lineNumber) {
+        runtimeErrorMessages.add("Runtime error at line " + lineNumber + ". " + message);
+        printErrors();
+        System.exit(65);
+    }
+
+    private static void printErrors() {
+        final String ANSI_YELLOW = "\u001B[33m";
+        final String ANSI_RED_BACKGRROUND = "\u001B[41m";
+        final String ANSI_RESET = "\u001B[0m";
+
+        for(String syntaxErrorMessage : syntaxErrorMessages) 
+            System.out.println(ANSI_YELLOW + syntaxErrorMessage + ANSI_RESET);
+
+        for(String runtimeErrorMessage : runtimeErrorMessages)
+            System.out.println(ANSI_RED_BACKGRROUND + runtimeErrorMessage + ANSI_RESET);
+    }
 }
+
