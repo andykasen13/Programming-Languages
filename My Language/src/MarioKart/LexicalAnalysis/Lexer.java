@@ -3,6 +3,8 @@ package MarioKart.LexicalAnalysis;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import MarioKart.MarioKart;
+
 public class Lexer {
     //--------------------- Instance Variables ----------------------
     private final String source;
@@ -127,6 +129,6 @@ public class Lexer {
 
     // --------------------- Error Reporting -----------------------
     private void error(String message) {
-        //MarioKart.syntaxError(message, lineNumber);
+        MarioKart.syntaxError(message, lineNumber);
     }
 }

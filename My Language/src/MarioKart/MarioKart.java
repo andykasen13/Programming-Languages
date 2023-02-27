@@ -1,11 +1,12 @@
+package MarioKart;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
-import LexicalAnalysis.Lexer;
-import LexicalAnalysis.Lexeme;
+import MarioKart.LexicalAnalysis.Lexer;
+import MarioKart.LexicalAnalysis.Lexeme;
 
 public class MarioKart {
     public static void main(String[] args) throws IOException{
@@ -31,8 +32,8 @@ public class MarioKart {
 
         //Lexing
         Lexer lexer = new Lexer(source);
-        //ArrayList<Lexeme> lexemes = lexer.lex();
-        //System.out.println(lexemes);
+        ArrayList<Lexeme> lexemes = lexer.lex();
+        System.out.println(lexemes);
     }
 
     //--------------Error Reporting-------------
