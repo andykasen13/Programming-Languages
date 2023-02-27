@@ -1,4 +1,4 @@
-package LexicalAnalysis;
+package MarioKart.LexicalAnalysis;
 
 public enum Types {
     //---------Keywords----------

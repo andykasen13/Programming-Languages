@@ -31,8 +31,8 @@ public class MarioKart {
 
         //Lexing
         Lexer lexer = new Lexer(source);
-        ArrayList<Lexeme> lexemes = lexer.lex();
-        System.out.println(lexemes);
+        //ArrayList<Lexeme> lexemes = lexer.lex();
+        //System.out.println(lexemes);
     }
 
     //--------------Error Reporting-------------
@@ -49,7 +49,7 @@ public class MarioKart {
     }
 
     public static void runtimeError(String message, Lexeme lexeme) {
-        runtimeErrorMessages.add("Runtime error at " + lexeme ". " + message);
+        runtimeErrorMessages.add("Runtime error at " + lexeme + ". " + message);
         printErrors();
         System.exit(65);
     }

@@ -1,4 +1,4 @@
-package LexicalAnalysis;
+package MarioKart.LexicalAnalysis;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -75,7 +75,6 @@ public class Lexer {
     //---------- Constructor --------
     public Lexer(String source) {
         this.source = source;
-        this.lexemes = new ArrayList<>();
         this.keywords = getKeywords();
         this.currentPosition = 0;
         this.startOfCurrentLexeme = 0;
@@ -128,6 +127,6 @@ public class Lexer {
 
     // --------------------- Error Reporting -----------------------
     private void error(String message) {
-        MarioKart.syntaxError(message, lineNumber);
+        //MarioKart.syntaxError(message, lineNumber);
     }
 }

@@ -1,4 +1,4 @@
-package LexicalAnalysis;
+package MarioKart.LexicalAnalysis;
 
 import java.util.ArrayList;
 
@@ -74,9 +74,6 @@ public class Lexeme {
     }
     public void setWord(String word) {
         this.word = word;
-    }
-    public void setType(Types type) {
-        this.type = type;
     }
     public void setArrayValue(Object[] arrayValue) {
         this.arrayValue = arrayValue;
