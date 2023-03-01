@@ -152,16 +152,115 @@ public class Lexer {
             case ' ', '\t', '\n', '\r' -> {
                 return null;
             }
-
+            
+            //one digit
             case '[' -> { return new Lexeme(lineNumber, OPEN_BRACKET); }
             case ']' -> { return new Lexeme(lineNumber, CLOSED_BRACKET); }
             case '(' -> { return new Lexeme(lineNumber, OPEN_PARENTHESIS); }
             case ')' -> { return new Lexeme(lineNumber, CLOSED_PARENTHESIS); }
             case '.' -> { return new Lexeme(lineNumber, DOT); }
             case ',' -> { return new Lexeme(lineNumber, COMMA); }
+            case '!' -> { return new Lexeme(lineNumber, NOT); }
+            case '%' -> { return new Lexeme(lineNumber, MOD); }
+            case '"' -> { lexString(); }
+            case '1' -> { lexNumber(); }
+            case '2' -> { lexNumber(); }
+            case '3' -> { lexNumber(); }
+            case '4' -> { lexNumber(); }
+            case '5' -> { lexNumber(); }
+            case '6' -> { lexNumber(); }
+            case '7' -> { lexNumber(); }
+            case '8' -> { lexNumber(); }
+            case '9' -> { lexNumber(); }
+            case '0' -> { lexNumber(); }
 
-            //Put more cases here later :)
+            //two digits
+            case '&' -> { if(match('&')) return new Lexeme(lineNumber, AND); }
+            case '|' -> { if(match('|')) return new Lexeme(lineNumber, OR); }
+
+            //one OR two digits :(
+            case '+' -> {
+                if(match('+')) return new Lexeme(lineNumber, PLUS_PLUS);
+                else if(match('=')) return new Lexeme(lineNumber, PLUS_EQUALS);
+                else return new Lexeme(lineNumber, PLUS);
+            }
+            case '-' -> {
+                if(match('-')) return new Lexeme(lineNumber, MINUS_MINUS);
+                else if(match('=')) return new Lexeme(lineNumber, PLUS_EQUALS);
+                else return new Lexeme(lineNumber, MINUS);
+            }
+            case '/' -> {
+                if(match('/')) lexComments();
+                else if(match('=')) return new Lexeme(lineNumber, DIVIDED_EQUALS);
+                else return new Lexeme(lineNumber, DIVIDED_BY);
+            }
+
+            //only two options
+            case '>' -> { return new Lexeme(lineNumber, match('=') ? GREATER_THAN_OR_EQUAL_TO : GREATER_THAN); }
+            case '<' -> { return new Lexeme(lineNumber, match('=') ? LESS_THAN_OR_EQUAL_TO : LESS_THAN); }
+            case '=' -> { return new Lexeme(lineNumber, match('=') ? EQUALS_EQUALS_ : EQUALS); }
+            case '*' -> { return new Lexeme(lineNumber, match('=') ? TIMES_EQUALS : TIMES); }
         }
+        return null;
+    }
+
+    private Lexeme lexString() {
+        while( !(isAtEnd() || peek() == '"')) advance();
+
+        String str = source.substring(startOfCurrentLexeme + 1, currentPosition);
+
+        if(isAtEnd()) error("you didn't close your string :(. String: '" + str + "'");
+        else advance();
+
+        return new Lexeme(lineNumber, str, STRING);
+    }
+
+    private Lexeme lexNumber() {
+        boolean isInteger = true;
+        while(isDigit(peek())) advance();
+
+        if (peek() == '.') {
+            isInteger = false;
+
+            if(!isDigit(peek())) {
+                String malformedReal = source.substring(startOfCurrentLexeme, currentPosition + 1);
+                error("that isn't a number!!! silly goose. your failure: '" + malformedReal + "'");
+            }
+
+            advance();
+
+            while(isDigit(peek())) advance();
+        }
+
+        String numberString = source.substring(startOfCurrentLexeme, currentPosition);
+        if(isInteger) { 
+            int intValue = Integer.parseInt(numberString);
+            return new Lexeme(lineNumber, intValue, INT);
+        } else {
+            double realValue = Double.parseDouble(numberString);
+            return new Lexeme(lineNumber, realValue, REAL);
+        }
+
+    }
+
+    private Lexeme lexIdentifierOrKeyword() {
+        while(isAlphaNumeric(peek())) advance();
+
+        String text = source.substring(startOfCurrentLexeme, currentPosition);
+        Types type = keywords.get(text);
+
+        if (type == null) return new Lexeme(lineNumber, text, IDENTIFIER);
+
+        else if(type == TRUE) return new Lexeme(lineNumber, true, TRUE);
+        else if(type == FALSE) return new Lexeme(lineNumber, false, FALSE);
+
+        return new Lexeme(lineNumber, type);
+    }
+
+    private Lexeme lexComments() { 
+        int currentLineNumber = lineNumber;
+        while(currentLineNumber == lineNumber) advance();
+        return new Lexeme(lineNumber, source.substring(startOfCurrentLexeme, currentPosition), COMMENT);
     }
 
 

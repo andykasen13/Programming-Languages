@@ -1,7 +1,5 @@
 package MarioKart.LexicalAnalysis;
 
-import java.util.ArrayList;
-
 public class Lexeme {
     //Instance Variables
     private final Types type;
@@ -10,6 +8,7 @@ public class Lexeme {
     //------Instance Variable Declaration------
     private String word;
     private int intValue;
+    private double realValue;
     private boolean boolValue;
     private Object[] arrayValue;
 
@@ -43,9 +42,18 @@ public class Lexeme {
         this.type = type;
     }
 
+    public Lexeme(int lineNumber, double realValue, Types type) {
+        this.lineNumber = lineNumber;
+        this.realValue = realValue;
+        this.type = type;
+    }
+
     //---------Getters and Setters------------
     public int getIntValue() {
         return intValue;
+    }
+    public double getRealValue() {
+        return realValue;
     }
     public boolean getBoolValue() {
         return boolValue;
@@ -65,6 +73,9 @@ public class Lexeme {
 
     public void setIntValue(int intValue) {
         this.intValue = intValue;
+    }
+    public void setRealValue(double realValue) {
+        this.realValue = realValue;
     }
     public void setBoolValue(boolean boolValue) {
         this.boolValue = boolValue;
