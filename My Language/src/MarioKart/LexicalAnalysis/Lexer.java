@@ -25,6 +25,8 @@ public class Lexer {
         keywords.put("summon", SUMMON);
         keywords.put("using", USING);
         keywords.put("garage", GARAGE);
+        keywords.put("from", FROM);
+        keywords.put("to", TO);
 
         keywords.put("first", FIRST);
         keywords.put("second", SECOND);
@@ -161,18 +163,9 @@ public class Lexer {
             case '.' -> { return new Lexeme(lineNumber, DOT); }
             case ',' -> { return new Lexeme(lineNumber, COMMA); }
             case '!' -> { return new Lexeme(lineNumber, NOT); }
-            case '%' -> { return new Lexeme(lineNumber, MOD); }
-            case '"' -> { lexString(); }
-            case '1' -> { lexNumber(); }
-            case '2' -> { lexNumber(); }
-            case '3' -> { lexNumber(); }
-            case '4' -> { lexNumber(); }
-            case '5' -> { lexNumber(); }
-            case '6' -> { lexNumber(); }
-            case '7' -> { lexNumber(); }
-            case '8' -> { lexNumber(); }
-            case '9' -> { lexNumber(); }
-            case '0' -> { lexNumber(); }
+//            case '%' -> { return new Lexeme(lineNumber, MOD); }
+            case '"' -> { return lexString(); }
+            case '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' -> { return lexNumber(); }
 
             //two digits
             case '&' -> { if(match('&')) return new Lexeme(lineNumber, AND); }
@@ -200,6 +193,16 @@ public class Lexer {
             case '<' -> { return new Lexeme(lineNumber, match('=') ? LESS_THAN_OR_EQUAL_TO : LESS_THAN); }
             case '=' -> { return new Lexeme(lineNumber, match('=') ? EQUALS_EQUALS_ : EQUALS); }
             case '*' -> { return new Lexeme(lineNumber, match('=') ? TIMES_EQUALS : TIMES); }
+
+            //put NOTHING beneath these cases pls
+            default -> {
+                if(isDigit(c)) return lexNumber();
+                else if(isAlpha(c)) return lexIdentifierOrKeyword();
+                else {
+                    error("bro what is '" + c + "'. i do not recognize it. but then again i dont recognize half of what goes on in my calc class sooooooo");
+                    return null;
+                }
+            }
         }
         return null;
     }
@@ -213,6 +216,12 @@ public class Lexer {
         else advance();
 
         return new Lexeme(lineNumber, str, STRING);
+    }
+
+    private Lexeme lexComments() { 
+        while( !(isAtEnd() || peek() == '\n')) advance();
+
+        return null;
     }
 
     private Lexeme lexNumber() {
@@ -257,11 +266,7 @@ public class Lexer {
         return new Lexeme(lineNumber, type);
     }
 
-    private Lexeme lexComments() { 
-        int currentLineNumber = lineNumber;
-        while(currentLineNumber == lineNumber) advance();
-        return new Lexeme(lineNumber, source.substring(startOfCurrentLexeme, currentPosition), COMMENT);
-    }
+   
 
 
 }

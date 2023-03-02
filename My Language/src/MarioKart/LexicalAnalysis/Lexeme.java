@@ -1,5 +1,6 @@
 package MarioKart.LexicalAnalysis;
 
+import static MarioKart.LexicalAnalysis.Types.*;
 public class Lexeme {
     //Instance Variables
     private final Types type;
@@ -7,9 +8,9 @@ public class Lexeme {
 
     //------Instance Variable Declaration------
     private String word;
-    private int intValue;
-    private double realValue;
-    private boolean boolValue;
+    private Integer intValue;
+    private Double realValue;
+    private Boolean boolValue;
     private Object[] arrayValue;
 
     //-----------Constructors-------------
@@ -92,12 +93,11 @@ public class Lexeme {
 
     //--------toString-----------
     public String toString() {
-        String stringNow = "";
-        stringNow.concat("Lexeme of type" + type + "and line number " + lineNumber);
-        stringNow.concat("\nBoolean value: " + boolValue);
-        stringNow.concat("\nInteger Value: " + intValue);
-        stringNow.concat("\nString value: " + word);
-        stringNow.concat("\nArray value: " + arrayValue);
-        return(stringNow);
+        if(type == INT && intValue != null) return "\nType: " + type + ", line number: " + lineNumber + ", value: " + intValue;
+        else if(type == REAL && realValue != null) return "\nType: " + type + ", line number: " + lineNumber + ", value: " + realValue;
+        else if(type == STRING && word != null) return "\nType: " + type + ", line number: " + lineNumber + ", value: " + word + "\n";
+        else if(type == BOOLEAN && boolValue != null) return "\nType: " + type + ", line number : " + lineNumber + ", value: " + boolValue;
+        else if(type == ARRAY && arrayValue != null) return "\nType: " + type + ", line number : " + lineNumber + ", value: " + arrayValue;
+        else return "\nType: " + type;
     }
 }

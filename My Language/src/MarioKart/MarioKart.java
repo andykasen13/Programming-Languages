@@ -13,7 +13,7 @@ public class MarioKart {
         try {
             if(args.length == 1) runFile(args[0]);
             else { 
-                System.out.println("Usage: MarioKart [path to .arrg file]");
+                System.out.println("Usage: MarioKart [path to .mariokart file]");
                 System.exit(64);
             }
         } catch (IOException exception) {
@@ -29,6 +29,7 @@ public class MarioKart {
     private static void runFile(String path) throws IOException {
         System.out.println("Running" + path + "...");
         String source = getSourceCodeFromFile(path);
+        //System.out.println(source);
 
         //Lexing
         Lexer lexer = new Lexer(source);
@@ -63,14 +64,14 @@ public class MarioKart {
 
     private static void printErrors() {
         final String ANSI_YELLOW = "\u001B[33m";
-        final String ANSI_RED_BACKGRROUND = "\u001B[41m";
+        final String ANSI_RED_BACKGROUND = "\u001B[41m";
         final String ANSI_RESET = "\u001B[0m";
 
         for(String syntaxErrorMessage : syntaxErrorMessages) 
             System.out.println(ANSI_YELLOW + syntaxErrorMessage + ANSI_RESET);
 
         for(String runtimeErrorMessage : runtimeErrorMessages)
-            System.out.println(ANSI_RED_BACKGRROUND + runtimeErrorMessage + ANSI_RESET);
+            System.out.println(ANSI_RED_BACKGROUND + runtimeErrorMessage + ANSI_RESET);
     }
 }
 

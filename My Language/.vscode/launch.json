@@ -6,10 +6,18 @@
     "configurations": [
         {
             "type": "java",
+            "name": "MarioKart",
+            "request": "launch",
+            "mainClass": "MarioKart.MarioKart",
+            "projectName": "My Language_f8177d05",
+            "args": "\"/Users/andrewgarcha/Documents/Programming-Languages/My Language/testInput/comments.mariokart\"",
+        },
+        {
+            "type": "java",
             "name": "Debug (Launch) - Current File",
             "request": "launch",
             "mainClass": "${file}",
-            "args": "/PATH/"
+            "args": "\"/Users/andrewgarcha/Documents/Programming-Languages/My Language/testInput/comments.mariokart\""
         }
     ]
 }

@@ -15,7 +15,7 @@ public enum Types {
     TRUE, FALSE, EQUALS, 
 
     //----------Data Types---------
-    INT, STRING, BOOLEAN, REAL,
+    INT, STRING, BOOLEAN, REAL, ARRAY,
 
     //---Single-Character Tokens---
     OPEN_PARENTHESIS, CLOSED_PARENTHESIS,
