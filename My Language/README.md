@@ -83,29 +83,28 @@ last {
 For MarioKart, `first` acts as `if`, `second`, `third`, `fourth`, and so on acts as `else if`, and `last` acts as `else`.
 
 ## Operators and Comparators
-| Java Operator | MK Operator |
-| ----------- | ----------- |
-| `=` | `ties with` |
-| + | boost |
-| - | slip |
-| * | super star |
-| / | blue shell |
-| % | % |
-| += | multi mushroom |
-| -= | red shell |
-| **= | golden mushroom |
-| /= | fall off the map |
-| ++ | overtake |
-| -- | get passed |
-| ! | not |
-| == | is tied with |
-| != | is not tied with |
-| > | is further than |
-| >= | is better than |
-| < | is behind |
-| <= | is worse than |
-| && | and |
-| || | or 
+| Java Operator | MK Operator    |
+| -- |----------------|
+| `=` | `ties with`    |
+| `+` | `boost`        |
+| `-` | `slip`         |
+| `*` | `super star`   |
+| `/` | `blue shell`   |
+| `%` | `%`            |
+| `+=` | `multi mushroom` |
+| `-=` | `red shell`      |
+| `*=` | `golden mushroom` |
+| `/=` | `fall off the map` |
+| `++` | `overtake`       |
+| `--` | `get passed`     |
+| `!` | `not`            |
+| `==` | `is tied with`   |
+| `!=` | `is not tied with` |
+| `>` | `is further than` |
+| `>=` | `is better than` |
+| `<` | `is behind`      |
+| `<=` | `is worse than`  |
+| `&&` | `and`            |
 
 ## Collections
 ### Creation

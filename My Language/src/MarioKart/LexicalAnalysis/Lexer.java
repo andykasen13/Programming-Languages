@@ -27,6 +27,7 @@ public class Lexer {
         keywords.put("garage", GARAGE);
         keywords.put("from", FROM);
         keywords.put("to", TO);
+        keywords.put("return", RETURN);
 
         keywords.put("first", FIRST);
         keywords.put("second", SECOND);
@@ -42,36 +43,26 @@ public class Lexer {
         keywords.put("twelfth", TWELFTH);
         keywords.put("last", LAST);
 
-        keywords.put("int", INT);
-        keywords.put("string", STRING);
-        keywords.put("boolean", BOOLEAN);
-
-        keywords.put("(", OPEN_PARENTHESIS);
-        keywords.put(")", CLOSED_PARENTHESIS);
-        keywords.put("[", OPEN_BRACKET);
-        keywords.put("]", CLOSED_BRACKET);
-        keywords.put(";", SEMICOLON);
-
-        keywords.put("+", PLUS);
-        keywords.put("-", MINUS);
-        keywords.put("*", TIMES);
-        keywords.put("/", DIVIDED_BY);
-        keywords.put("%", MOD);
-        keywords.put("+=", PLUS_EQUALS);
-        keywords.put("-=", MINUS_EQUALS);
-        keywords.put("*=", TIMES_EQUALS);
-        keywords.put("/=", DIVIDED_EQUALS);
-        keywords.put("++", PLUS_PLUS);
-        keywords.put("--", MINUS_MINUS);
-        keywords.put("!", NOT);
-        keywords.put("==", EQUALS_EQUALS_);
-        keywords.put("!=", NOT_EQUALS);
-        keywords.put(">", GREATER_THAN);
-        keywords.put("<", LESS_THAN);
-        keywords.put(">=", GREATER_THAN_OR_EQUAL_TO);
-        keywords.put("<+=", LESS_THAN_OR_EQUAL_TO);
-        keywords.put("&&", AND);
-        keywords.put("||", OR);
+        keywords.put("tiesWith", EQUALS);
+        keywords.put("boost", PLUS);
+        keywords.put("slip", MINUS);
+        keywords.put("superStar", TIMES);
+        keywords.put("blueShell", DIVIDED_BY);
+        keywords.put("multiMushroom", PLUS_EQUALS);
+        keywords.put("redShell", MINUS_EQUALS);
+        keywords.put("goldenMushroom", TIMES_EQUALS);
+        keywords.put("fallOffTheMap", DIVIDED_EQUALS);
+        keywords.put("overtake", PLUS_PLUS);
+        keywords.put("getPassed", MINUS_MINUS);
+        keywords.put("not", NOT);
+        keywords.put("isTiedWith", EQUALS_EQUALS);
+        keywords.put("isNotTiedWith", NOT_EQUALS);
+        keywords.put("isFurtherThan", GREATER_THAN);
+        keywords.put("isBetterThan", GREATER_THAN_OR_EQUAL_TO);
+        keywords.put("isBehind", LESS_THAN);
+        keywords.put("isWorseThan", LESS_THAN_OR_EQUAL_TO);
+        keywords.put("and", AND);
+        keywords.put("or", OR);
 
         return keywords;
     }
@@ -191,7 +182,7 @@ public class Lexer {
             //only two options
             case '>' -> { return new Lexeme(lineNumber, match('=') ? GREATER_THAN_OR_EQUAL_TO : GREATER_THAN); }
             case '<' -> { return new Lexeme(lineNumber, match('=') ? LESS_THAN_OR_EQUAL_TO : LESS_THAN); }
-            case '=' -> { return new Lexeme(lineNumber, match('=') ? EQUALS_EQUALS_ : EQUALS); }
+            case '=' -> { return new Lexeme(lineNumber, match('=') ? EQUALS_EQUALS : EQUALS); }
             case '*' -> { return new Lexeme(lineNumber, match('=') ? TIMES_EQUALS : TIMES); }
 
             //put NOTHING beneath these cases pls
