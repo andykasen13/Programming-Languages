@@ -50,7 +50,7 @@
     <configuration name="MarioKart" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="MarioKart.MarioKart" />
       <module name="My Language" />
-      <option name="PROGRAM_PARAMETERS" value="testInput/comments.mariokart" />
+      <option name="PROGRAM_PARAMETERS" value="testInput/realNumbers.mariokart" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="MarioKart.*" />

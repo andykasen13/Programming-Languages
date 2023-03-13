@@ -1,5 +1,7 @@
 package MarioKart.LexicalAnalysis;
 
+import java.util.Arrays;
+
 import static MarioKart.LexicalAnalysis.Types.*;
 public class Lexeme {
     //Instance Variables
@@ -93,11 +95,16 @@ public class Lexeme {
 
     //--------toString-----------
     public String toString() {
-        if(type == INT && intValue != null) return "\nType: " + type + ", line number: " + lineNumber + ", value: " + intValue;
-        else if(type == REAL && realValue != null) return "\nType: " + type + ", line number: " + lineNumber + ", value: " + realValue;
-        else if(type == STRING && word != null) return "\nType: " + type + ", line number: " + lineNumber + ", value: " + word + "\n";
-        else if(type == BOOLEAN && boolValue != null) return "\nType: " + type + ", line number : " + lineNumber + ", value: " + boolValue;
-        else if(type == ARRAY && arrayValue != null) return "\nType: " + type + ", line number : " + lineNumber + ", value: " + arrayValue;
-        else return "\nType: " + type;
+        if (type == INT && intValue != null)
+            return "\n (line " + lineNumber + ") Type: " + type + ", value: " + intValue;
+        else if (type == REAL && realValue != null)
+            return "\n (line " + lineNumber + ") Type: " + type + ", value: " + realValue;
+        else if (type == STRING && word != null)
+            return "\n (line " + lineNumber + ") Type: " + type + ", value: " + word;
+        else if (type == BOOLEAN && boolValue != null)
+            return "\n (line " + lineNumber + ") Type: " + type + ", value: " + boolValue;
+        else if (type == ARRAY && arrayValue != null)
+            return "\n (line " + lineNumber + ") Type: " + type + ", value: " + Arrays.toString(arrayValue);
+        else return "\n(line " + lineNumber + ") Type: " + type;
     }
 }

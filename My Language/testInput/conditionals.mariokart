@@ -1,0 +1,10 @@
+int x = 3;
+first(x == 3) {
+ x++;
+}
+second(x == 4) {
+ x--;
+}
+last() {
+ x = 5;
+}

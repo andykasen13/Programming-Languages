@@ -35,6 +35,9 @@ public class MarioKart {
         Lexer lexer = new Lexer(source);
         ArrayList<Lexeme> lexemes = lexer.lex();
         System.out.println(lexemes);
+
+        //print all my errors pls
+        printErrors();
     }
 
     //--------------Error Reporting-------------

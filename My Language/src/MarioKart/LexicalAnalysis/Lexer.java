@@ -64,6 +64,12 @@ public class Lexer {
         keywords.put("and", AND);
         keywords.put("or", OR);
 
+        keywords.put("int", INT);
+        keywords.put("real", REAL);
+        keywords.put("boolean", BOOLEAN);
+        keywords.put("string", STRING);
+        keywords.put("array", ARRAY);
+
         return keywords;
     }
 
@@ -151,6 +157,9 @@ public class Lexer {
             case ']' -> { return new Lexeme(lineNumber, CLOSED_BRACKET); }
             case '(' -> { return new Lexeme(lineNumber, OPEN_PARENTHESIS); }
             case ')' -> { return new Lexeme(lineNumber, CLOSED_PARENTHESIS); }
+            case '{' -> { return new Lexeme(lineNumber, OPEN_CURLY); }
+            case '}' -> { return new Lexeme(lineNumber, CLOSED_CURLY); }
+            case ';' -> { return new Lexeme(lineNumber, SEMICOLON); }
             case '.' -> { return new Lexeme(lineNumber, DOT); }
             case ',' -> { return new Lexeme(lineNumber, COMMA); }
             case '!' -> { return new Lexeme(lineNumber, NOT); }
@@ -209,26 +218,23 @@ public class Lexer {
         return new Lexeme(lineNumber, str, STRING);
     }
 
-    private Lexeme lexComments() { 
+    private void lexComments() {
         while( !(isAtEnd() || peek() == '\n')) advance();
 
-        return null;
     }
 
     private Lexeme lexNumber() {
         boolean isInteger = true;
         while(isDigit(peek())) advance();
 
+        //checking if int or real
         if (peek() == '.') {
             isInteger = false;
-
-            if(!isDigit(peek())) {
-                String malformedReal = source.substring(startOfCurrentLexeme, currentPosition + 1);
+            if(!isDigit(peekNext())) {
+                String malformedReal = source.substring(startOfCurrentLexeme, currentPosition + 2);
                 error("that isn't a number!!! silly goose. your failure: '" + malformedReal + "'");
             }
-
             advance();
-
             while(isDigit(peek())) advance();
         }
 

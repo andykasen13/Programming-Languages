@@ -20,6 +20,7 @@ public enum Types {
     //---Single-Character Tokens---
     OPEN_PARENTHESIS, CLOSED_PARENTHESIS,
     OPEN_BRACKET, CLOSED_BRACKET,
+    OPEN_CURLY, CLOSED_CURLY,
     SEMICOLON, DOT, COMMA,
 
     //----------Operators----------
