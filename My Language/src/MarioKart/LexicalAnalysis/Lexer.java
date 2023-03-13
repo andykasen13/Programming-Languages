@@ -28,6 +28,7 @@ public class Lexer {
         keywords.put("from", FROM);
         keywords.put("to", TO);
         keywords.put("return", RETURN);
+        keywords.put("timeTrial", TIMETRIAL);
 
         keywords.put("first", FIRST);
         keywords.put("second", SECOND);
