@@ -11,7 +11,7 @@ import static MarioKart.LexicalAnalysis.Types.*;
 public class Recognizer {
     private static final boolean printDebugMessages = true;
     // ------------------- Instance Variables --------------------
-    private final ArrayList<Lexeme> lexemes = new ArrayList<>();
+    private final ArrayList<Lexeme> lexemes;
     private Lexeme currentLexeme;
     private int nextLexemeIndex;
 
@@ -50,6 +50,12 @@ public class Recognizer {
     }
 
     // ------------------- Constructor --------------------
+    public Recognizer(ArrayList<Lexeme> lexemes) {
+        this.lexemes = lexemes;
+        this.nextLexemeIndex = 0;
+        advance();
+    }
+
     // ------------------- Consumption Functions --------------------
     // ------------------- Pending Functions --------------------
     // ------------------- Grouped Type-Enumeration --------------------
