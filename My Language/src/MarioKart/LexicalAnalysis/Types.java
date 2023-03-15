@@ -2,7 +2,7 @@ package MarioKart.LexicalAnalysis;
 
 public enum Types {
     //---------Keywords----------
-    REQUIRES, RETURN, SUMMON, USING, GARAGE, END_OF_FILE, IDENTIFIER, COMMENT, TIMETRIAL,
+    REQUIRES, RETURN, SUMMON, USING, GARAGE, END_OF_FILE, IDENTIFIER, COMMENT, TIMETRIAL, ERROR,
 
     //-----------Loop------------
     FROM, TO,
