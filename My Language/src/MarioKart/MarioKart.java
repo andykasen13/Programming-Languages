@@ -29,7 +29,7 @@ public class MarioKart {
     private static void runFile(String path) throws IOException {
         System.out.println("Running" + path + "...");
         String source = getSourceCodeFromFile(path);
-        //System.out.println(source);
+        System.out.println(source);
 
         //Lexing
         Lexer lexer = new Lexer(source);

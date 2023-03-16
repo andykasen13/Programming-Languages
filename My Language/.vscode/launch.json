@@ -6,12 +6,6 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Launch Java Program",
-            "request": "launch",
-            "mainClass": "MarioKart.MarioKart"
-        },
-        {
-            "type": "java",
             "name": "MarioKart",
             "request": "launch",
             "mainClass": "MarioKart.MarioKart",
@@ -22,7 +16,7 @@
             "type": "java",
             "name": "Debug (Launch) - Current File",
             "request": "launch",
-            "mainClass": "${file}",
+            "mainClass": "MarioKart.MarioKart",
             "args": "\"/Users/andrewgarcha/Documents/Programming-Languages/My Language/testInput/comments.mariokart\""
         }
     ]
