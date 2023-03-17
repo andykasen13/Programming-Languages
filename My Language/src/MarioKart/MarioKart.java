@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import MarioKart.LexicalAnalysis.Lexer;
 import MarioKart.LexicalAnalysis.Lexeme;
+import MarioKart.Recognizer.Recognizer;
 
 public class MarioKart {
     public static void main(String[] args) throws IOException{
@@ -35,6 +36,9 @@ public class MarioKart {
         Lexer lexer = new Lexer(source);
         ArrayList<Lexeme> lexemes = lexer.lex();
         System.out.println(lexemes);
+
+        //Recognizing
+        Recognizer recognizer = new Recognizer(lexemes);
 
         //print all my errors pls
         printErrors();

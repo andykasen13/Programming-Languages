@@ -29,6 +29,8 @@ public class Lexer {
         keywords.put("to", TO);
         keywords.put("return", RETURN);
         keywords.put("timeTrial", TIMETRIAL);
+        keywords.put("lap", LAP);
+        keywords.put("by", BY);
 
         keywords.put("first", FIRST);
         keywords.put("second", SECOND);
@@ -70,6 +72,7 @@ public class Lexer {
         keywords.put("boolean", BOOLEAN);
         keywords.put("string", STRING);
         keywords.put("array", ARRAY);
+        keywords.put("char", CHAR);
 
         return keywords;
     }
