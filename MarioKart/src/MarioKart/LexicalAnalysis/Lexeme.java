@@ -103,8 +103,8 @@ public class Lexeme {
             return "\n (line " + lineNumber + ") Type: " + type + ", value: " + word;
         else if (type == BOOLEAN && boolValue != null)
             return "\n (line " + lineNumber + ") Type: " + type + ", value: " + boolValue;
-        else if (type == ARRAY && arrayValue != null)
-            return "\n (line " + lineNumber + ") Type: " + type + ", value: " + Arrays.toString(arrayValue);
+       // else if (type == ARRAY && arrayValue != null)
+       //     return "\n (line " + lineNumber + ") Type: " + type + ", value: " + Arrays.toString(arrayValue);
         else return "\n(line " + lineNumber + ") Type: " + type;
     }
 }
