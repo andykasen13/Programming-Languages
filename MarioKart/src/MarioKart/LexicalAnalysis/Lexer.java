@@ -145,67 +145,91 @@ public class Lexer {
     }
 
     // --------------------- lex Helper Functions ---------------------------
+
     private Lexeme getNextLexeme() {
         char c = advance();
-        switch(c) {
-            //Ignore whitespace
-            case ' ', '\t', '\n', '\r' -> {
+
+        switch (c) {
+            //ignore indents/line breaks
+            case '\t', '\n', '\r', ' ' -> {
                 return null;
             }
-            
-            //one digit
-            case '[' -> { return new Lexeme(lineNumber, OPEN_BRACKET); }
-            case ']' -> { return new Lexeme(lineNumber, CLOSED_BRACKET); }
-            case '(' -> { return new Lexeme(lineNumber, OPEN_PARENTHESIS); }
-            case ')' -> { return new Lexeme(lineNumber, CLOSED_PARENTHESIS); }
-            case '{' -> { return new Lexeme(lineNumber, OPEN_CURLY); }
-            case '}' -> { return new Lexeme(lineNumber, CLOSED_CURLY); }
-            case ';' -> { return new Lexeme(lineNumber, SEMICOLON); }
-            case '.' -> { return new Lexeme(lineNumber, DOT); }
-            case ',' -> { return new Lexeme(lineNumber, COMMA); }
-            case '!' -> { return new Lexeme(lineNumber, NOT); }
-            case '%' -> { return new Lexeme(lineNumber, MOD); }
-            case '"' -> { return lexString(); }
-            case '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' -> { return lexNumber(); }
+        
 
-            //two digits
-            case '&' -> { if(match('&')) return new Lexeme(lineNumber, AND); }
-            case '|' -> { if(match('|')) return new Lexeme(lineNumber, OR); }
+        case '[' -> {
+            return new Lexeme(OPEN_BRACKET, lineNumber);
+        }
+        case ']' -> {
+            return new Lexeme(CLOSED_BRACKET, lineNumber);
+        }
+        case '(' -> {
+            return new Lexeme(lineNumber, OPEN_PARENTHESIS);
+        }
+        case ')' -> {
+            return new Lexeme(lineNumber, CLOSED_PARENTHESIS);
+        }
+        case '{' -> {
+            return new Lexeme(lineNumber, OPEN_CURLY);
+        }
+        case '}' -> {
+            return new Lexeme(lineNumber, CLOSED_CURLY);
+        }
+        case '|' -> {
+            return new Lexeme(OR, lineNumber);
+        }
+        case '&' -> {
+            return new Lexeme(AND, lineNumber);
+        }
+        case '!' -> {
+            return new Lexeme(NOT, lineNumber);
+        }
+        case '.' -> {
+            return new Lexeme(lineNumber, DOT);
+        }
+        case ',' -> {
+            return new Lexeme(lineNumber, COMMA);
+        }
+        case ';' -> {
+            return new Lexeme(lineNumber, SEMICOLON);
+        }
 
-            //one OR two digits :(
-            case '+' -> {
-                if(match('+')) return new Lexeme(lineNumber, PLUS_PLUS);
-                else if(match('=')) return new Lexeme(lineNumber, PLUS_EQUALS);
-                else return new Lexeme(lineNumber, PLUS);
-            }
-            case '-' -> {
-                if(match('-')) return new Lexeme(lineNumber, MINUS_MINUS);
-                else if(match('=')) return new Lexeme(lineNumber, PLUS_EQUALS);
-                else return new Lexeme(lineNumber, MINUS);
-            }
-            case '/' -> {
-                if(match('/')) lexComments();
-                else if(match('=')) return new Lexeme(lineNumber, DIVIDED_EQUALS);
-                else return new Lexeme(lineNumber, DIVIDED_BY);
-            }
 
-            //only two options
-            case '>' -> { return new Lexeme(lineNumber, match('=') ? GREATER_THAN_OR_EQUAL_TO : GREATER_THAN); }
-            case '<' -> { return new Lexeme(lineNumber, match('=') ? LESS_THAN_OR_EQUAL_TO : LESS_THAN); }
-            case '=' -> { return new Lexeme(lineNumber, match('=') ? EQUALS_EQUALS : EQUALS); }
-            case '*' -> { return new Lexeme(lineNumber, match('=') ? TIMES_EQUALS : TIMES); }
-
-            //put NOTHING beneath these cases pls
-            default -> {
-                if(isDigit(c)) return lexNumber();
-                else if(isAlpha(c)) return lexIdentifierOrKeyword();
-                else {
-                    error("bro what is '" + c + "'. i do not recognize it. but then again i dont recognize half of what goes on in my calc class sooooooo");
-                    return null;
-                }
+        //One or two char tokens
+        case '+' -> {
+            if (match('+')) return new Lexeme(PLUS_PLUS, lineNumber);
+            else if (match('=')) return new Lexeme(PLUS_EQUALS, lineNumber);
+            else return new Lexeme(PLUS, lineNumber);
+        }
+        case '-' -> {
+            if (match('-')) return new Lexeme(MINUS_MINUS, lineNumber);
+            else if (match('=')) return new Lexeme(MINUS_EQUALS, lineNumber);
+            else return new Lexeme(MINUS, lineNumber);
+        }
+        case '>' -> {
+            if (match('=')) return new Lexeme(GREATER_THAN_OR_EQUAL_TO, lineNumber);
+            else return new Lexeme(GREATER_THAN, lineNumber);
+        }
+        case '<' -> {
+            if (match('=')) return new Lexeme(LESS_THAN_OR_EQUAL_TO, lineNumber);
+            else  return new Lexeme(LESS_THAN, lineNumber);
+        }
+        case '=' -> {
+            if (match('=')) return new Lexeme(EQUALS_EQUALS, lineNumber);
+            else return new Lexeme(EQUALS, lineNumber);
+        }
+        case '"' -> {
+            return lexString();
+        }
+        default -> {
+            if (isDigit(c)) return lexNumber();
+            else if (isAlpha(c)) return lexIdentifierOrKeyword();
+            else {
+                error("Unrecognized character '" + c + "'");
+                return null;
             }
         }
-        return null;
+    }
+        
     }
 
     private Lexeme lexString() {
@@ -217,11 +241,6 @@ public class Lexer {
         else advance();
 
         return new Lexeme(lineNumber, str, STRING);
-    }
-
-    private void lexComments() {
-        while( !(isAtEnd() || peek() == '\n')) advance();
-
     }
 
     private Lexeme lexNumber() {
@@ -262,6 +281,6 @@ public class Lexer {
         else if(type == TRUE) return new Lexeme(lineNumber, true, TRUE);
         else if(type == FALSE) return new Lexeme(lineNumber, false, FALSE);
 
-        return new Lexeme(lineNumber, type);
+        return new Lexeme(lineNumber, text, type);
     }
 }

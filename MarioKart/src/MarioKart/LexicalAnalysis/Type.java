@@ -2,7 +2,7 @@ package MarioKart.LexicalAnalysis;
 
 public enum Type {
     //---------Keywords----------
-    REQUIRES, RETURN, SUMMON, USING, GARAGE, END_OF_FILE, IDENTIFIER, COMMENT, TIMETRIAL,
+    REQUIRES, RETURN, SUMMON, USING, GARAGE, COMMENT, TIMETRIAL, LAP, BY,
 
     //-----------Loop------------
     FROM, TO,
@@ -15,7 +15,7 @@ public enum Type {
     TRUE, FALSE, EQUALS, 
 
     //----------Data Types---------
-    INT, STRING, BOOLEAN, REAL, ARRAY,
+    INT, STRING, BOOLEAN, REAL, ARRAY, CHAR,
 
     //---Single-Character Tokens---
     OPEN_PARENTHESIS, CLOSED_PARENTHESIS,
@@ -29,5 +29,10 @@ public enum Type {
     PLUS_PLUS, MINUS_MINUS,
     NOT, EQUALS_EQUALS, NOT_EQUALS,
     GREATER_THAN, GREATER_THAN_OR_EQUAL_TO, LESS_THAN, LESS_THAN_OR_EQUAL_TO,
-    AND, OR
+    AND, OR,
+
+    //--------sillies--------
+    EMPTY_PROGRAM, STATEMENT_LIST, ERROR, END_OF_FILE, IDENTIFIER, PARAMETER, PARAMETER_LIST,
+    FOR_STATEMENT, LOOP_STATEMENT, INITIALIZATION, VARIABLE_DECLARATION, BINARY_EXPRESSION,
+    EXPRESSION,
 }

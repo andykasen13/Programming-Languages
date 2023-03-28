@@ -1,12 +1,14 @@
 package MarioKart.LexicalAnalysis;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import static MarioKart.LexicalAnalysis.Type.*;
 public class Lexeme {
     //Instance Variables
     private final Type type;
-    private int lineNumber;
+    private Integer lineNumber;
+    private ArrayList<Lexeme> children;
 
     //------Instance Variable Declaration------
     private String word;
@@ -14,6 +16,14 @@ public class Lexeme {
     private Double realValue;
     private Boolean boolValue;
     private Object[] arrayValue;
+
+    //---------Helper Functions-----------
+    public void addChild(Lexeme newChild){
+        children.add(newChild);
+    }
+    public void addChildren(ArrayList<Lexeme> newChildren){
+        children.addAll(newChildren);
+    }
 
     //-----------Constructors-------------
     public Lexeme(int lineNumber, Type myType) {
@@ -49,6 +59,15 @@ public class Lexeme {
         this.lineNumber = lineNumber;
         this.realValue = realValue;
         this.type = myType;
+    }
+
+    public Lexeme(Type type, int lineNumber) {
+        this.lineNumber = lineNumber;
+        this.type = type;
+    }
+
+    public Lexeme(Type type) {
+        this.type = type;
     }
 
     //---------Getters and Setters------------
@@ -103,8 +122,11 @@ public class Lexeme {
             return "\n (line " + lineNumber + ") Type: " + type + ", value: " + word;
         else if (type == BOOLEAN && boolValue != null)
             return "\n (line " + lineNumber + ") Type: " + type + ", value: " + boolValue;
-       // else if (type == ARRAY && arrayValue != null)
-       //     return "\n (line " + lineNumber + ") Type: " + type + ", value: " + Arrays.toString(arrayValue);
+        else if (type == ARRAY && arrayValue != null)
+            return "\n (line " + lineNumber + ") Type: " + type + ", value: " + Arrays.toString(arrayValue);
+        else if (type == IDENTIFIER && word != null) {
+            return "\n(line " + lineNumber + ") Type: " + type + ", value: " + word;
+       }
         else return "\n(line " + lineNumber + ") Type: " + type;
     }
 }
