@@ -212,8 +212,9 @@ public class Recognizer {
     }
 
     private Lexeme whileStatement() {
-        Lexeme whileStatement = consume(TO);
-        whileStatement.addChild(consume(LAP));
+        Lexeme whileStatement = new Lexeme(WHILE_STATEMENT);
+        consume(TO);
+        consume(LAP);
         whileStatement.addChild(consume(INT));
         whileStatement.addChild(block());
         return whileStatement;
@@ -223,7 +224,8 @@ public class Recognizer {
     }
 
     private Lexeme conditionalBlock() {
-        Lexeme conditionalBlock = ifStatement();
+        Lexeme conditionalBlock = new Lexeme(CONDITIONAL_BLOCK);
+        conditionalBlock.addChild(ifStatement());
         while(elseIfStatementPending()) conditionalBlock.addChild(elseIfStatement());
         if(elseIfStatementPending()) conditionalBlock.addChild(elseStatement());
         return conditionalBlock;
@@ -233,10 +235,11 @@ public class Recognizer {
     }
 
     private Lexeme ifStatement() {
-        Lexeme ifStatement = consume(FIRST);
-        ifStatement.addChild(consume(OPEN_PARENTHESIS));
+        Lexeme ifStatement = new Lexeme(IF_STATEMENT);
+        consume(FIRST);
+        consume(OPEN_PARENTHESIS);
         ifStatement.addChild(expression());
-        ifStatement.addChild(consume(CLOSED_PARENTHESIS));
+        consume(CLOSED_PARENTHESIS);
         ifStatement.addChild(block());
         return ifStatement;
     }
@@ -245,7 +248,7 @@ public class Recognizer {
     }
 
     private Lexeme elseIfStatement() { //i am not doing this rn but reminder to come back to this
-        Lexeme elseIfStatement = null;
+        Lexeme elseIfStatement = new Lexeme(ELSE_IF_STATEMENT);
         if(check(SECOND)) {
             elseIfStatement = consume(SECOND);
             elseIfStatement.addChild(consume(OPEN_PARENTHESIS));
