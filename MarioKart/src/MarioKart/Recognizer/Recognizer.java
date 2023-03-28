@@ -250,73 +250,73 @@ public class Recognizer {
     private Lexeme elseIfStatement() { //i am not doing this rn but reminder to come back to this
         Lexeme elseIfStatement = new Lexeme(ELSE_IF_STATEMENT);
         if(check(SECOND)) {
-            elseIfStatement = consume(SECOND);
-            elseIfStatement.addChild(consume(OPEN_PARENTHESIS));
+            consume(SECOND);
+            consume(OPEN_PARENTHESIS);
             elseIfStatement.addChild(expression());
-            elseIfStatement.addChild(consume(CLOSED_PARENTHESIS));
+            consume(CLOSED_PARENTHESIS);
             elseIfStatement.addChild(block());
         }
         else if(check(THIRD)) {
-            elseIfStatement = consume(THIRD);
-            elseIfStatement.addChild(consume(OPEN_PARENTHESIS));
+            consume(THIRD);
+            consume(OPEN_PARENTHESIS);
             elseIfStatement.addChild(expression());
-            elseIfStatement.addChild(consume(CLOSED_PARENTHESIS));
+            consume(CLOSED_PARENTHESIS);
             elseIfStatement.addChild(block());
         }
         else if(check(FOURTH)) {
-            elseIfStatement = consume(FOURTH);
-            elseIfStatement.addChild(consume(OPEN_PARENTHESIS));
+            consume(FOURTH);
+            consume(OPEN_PARENTHESIS);
             elseIfStatement.addChild(expression());
-            elseIfStatement.addChild(consume(CLOSED_PARENTHESIS));
+            consume(CLOSED_PARENTHESIS);
             elseIfStatement.addChild(block());
         }
         else if(check(FIFTH)) {
-            elseIfStatement = consume(FIFTH);
-            elseIfStatement.addChild(consume(OPEN_PARENTHESIS));
+            consume(FIFTH);
+            consume(OPEN_PARENTHESIS);
             elseIfStatement.addChild(expression());
-            elseIfStatement.addChild(consume(CLOSED_PARENTHESIS));
+            consume(CLOSED_PARENTHESIS);
             elseIfStatement.addChild(block());
         }
         else if(check(SIXTH)) {
-            elseIfStatement = consume(SIXTH);
-            elseIfStatement.addChild(consume(OPEN_PARENTHESIS));
+            consume(SIXTH);
+            consume(OPEN_PARENTHESIS);
             elseIfStatement.addChild(expression());
-            elseIfStatement.addChild(consume(CLOSED_PARENTHESIS));
+            consume(CLOSED_PARENTHESIS);
             elseIfStatement.addChild(block());
         }
         else if(check(SEVENTH)) {
-            elseIfStatement = consume(SEVENTH);
-            elseIfStatement.addChild(consume(OPEN_PARENTHESIS));
+            consume(SEVENTH);
+            consume(OPEN_PARENTHESIS);
             elseIfStatement.addChild(expression());
-            elseIfStatement.addChild(consume(CLOSED_PARENTHESIS));
+            consume(CLOSED_PARENTHESIS);
             elseIfStatement.addChild(block());
         }
         else if(check(EIGHTH)) {
-            elseIfStatement = consume(EIGHTH);
-            elseIfStatement.addChild(consume(OPEN_PARENTHESIS));
+            consume(EIGHTH);
+            consume(OPEN_PARENTHESIS);
             elseIfStatement.addChild(expression());
-            elseIfStatement.addChild(consume(CLOSED_PARENTHESIS));
+            consume(CLOSED_PARENTHESIS);
             elseIfStatement.addChild(block());
         }
         else if(check(NINTH)) {
-            elseIfStatement = consume(NINTH);
-            elseIfStatement.addChild(consume(OPEN_PARENTHESIS));
+            consume(NINTH);
+            consume(OPEN_PARENTHESIS);
             elseIfStatement.addChild(expression());
-            elseIfStatement.addChild(consume(CLOSED_PARENTHESIS));
+            consume(CLOSED_PARENTHESIS);
             elseIfStatement.addChild(block());
         }
         else if(check(TENTH)) {
-            elseIfStatement = consume(TENTH);
-            elseIfStatement.addChild(consume(OPEN_PARENTHESIS));
+            consume(TENTH);
+            consume(OPEN_PARENTHESIS);
             elseIfStatement.addChild(expression());
-            elseIfStatement.addChild(consume(CLOSED_PARENTHESIS));
+            consume(CLOSED_PARENTHESIS);
             elseIfStatement.addChild(block());
         }
 
         //Test
         else if(check(ELEVENTH)) {
-            elseIfStatement = consume(ELEVENTH);
-            elseIfStatement.addChild(consume(OPEN_PARENTHESIS));
+            consume(ELEVENTH);
+            consume(OPEN_PARENTHESIS);
             elseIfStatement.addChild(expression());
             elseIfStatement.addChild(consume(CLOSED_PARENTHESIS));
             elseIfStatement.addChild(block());
