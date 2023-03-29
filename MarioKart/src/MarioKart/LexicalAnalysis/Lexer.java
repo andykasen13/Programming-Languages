@@ -283,4 +283,5 @@ public class Lexer {
 
         return new Lexeme(lineNumber, text, type);
     }
+
 }

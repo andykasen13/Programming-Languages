@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import MarioKart.LexicalAnalysis.Lexer;
 import MarioKart.LexicalAnalysis.Lexeme;
+import MarioKart.Parser.Parser;
 
 public class MarioKart {
     public static void main(String[] args) throws IOException{
@@ -36,6 +37,11 @@ public class MarioKart {
         Lexer lexer = new Lexer(source);
         ArrayList<Lexeme> lexemes = lexer.lex();
         System.out.println(lexemes);
+
+        //Parsing
+        Parser parser = new Parser(lexemes);
+        Lexeme programParseTree = parser.program();
+        programParseTree.printAsParseTree();
 
         //print all my errors pls
         printErrors();

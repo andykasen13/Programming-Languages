@@ -8,7 +8,7 @@ public class Lexeme {
     //Instance Variables
     private final Type type;
     private Integer lineNumber;
-    private ArrayList<Lexeme> children;
+    private ArrayList<Lexeme> children = new ArrayList<>();
 
     //------Instance Variable Declaration------
     private String word;
@@ -23,6 +23,9 @@ public class Lexeme {
     }
     public void addChildren(ArrayList<Lexeme> newChildren){
         children.addAll(newChildren);
+    }
+    public Lexeme getChild(int i) {
+        return children.get(i);
     }
 
     //-----------Constructors-------------
@@ -129,4 +132,32 @@ public class Lexeme {
        }
         else return "\n(line " + lineNumber + ") Type: " + type;
     }
+
+        // --------------- Printing Lexemes as Parse Trees ---------------
+
+public void printAsParseTree() {
+    System.out.println(getPrintableTree(this, 0));
+}
+ 
+ 
+ private static String getPrintableTree(Lexeme root, int level) {
+    if (root == null) return "(Empty ParseTree)";
+    StringBuilder treeString = new StringBuilder(root.toString());
+ 
+    StringBuilder spacer = new StringBuilder("\n");
+    spacer.append("\t".repeat(level));
+ 
+    int numChildren = root.children.size();
+    if (numChildren > 0) {
+        treeString.append(" (with ").append(numChildren).append(numChildren == 1 ? " child):" : " children):");
+        for (int i = 0; i < numChildren; i++) {
+            Lexeme child = root.getChild(i);
+            treeString
+                    .append(spacer).append("(").append(i + 1).append(") ")
+                    .append(getPrintableTree(child, level + 1));
+        }
+    }
+ 
+    return treeString.toString();
+ }
 }

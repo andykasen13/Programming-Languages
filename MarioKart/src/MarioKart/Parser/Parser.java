@@ -1,4 +1,4 @@
-package MarioKart.Recognizer;
+package MarioKart.Parser;
 
 import MarioKart.LexicalAnalysis.Lexeme;
 import MarioKart.LexicalAnalysis.Type;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import static MarioKart.LexicalAnalysis.Type.*;
 
-public class Recognizer {
+public class Parser {
     private static final boolean printDebugMessages = true;
     // ------------------- Instance Variables --------------------
     private final ArrayList<Lexeme> lexemes;
@@ -34,10 +34,16 @@ public class Recognizer {
         return lexemes.get(nextLexemeIndex).getType() == type;
     }
 
+    //check the following lexeme's type against a parameter
+    private boolean checkTwoNext(Type type) {
+        if(nextLexemeIndex + 1 > lexemes.size()) return false;
+        else return lexemes.get(nextLexemeIndex + 1).getType() == type;
+    }
+
     //move forward a lexeme
     private Lexeme consume(Type expectedType) {
         if(check(expectedType)) return advance();
-
+        System.out.println(currentLexeme);
         error("Expected Type " + expectedType + " but found " + currentLexeme + ".");
         return new Lexeme(currentLexeme.getLineNumber(), ERROR);
     }
@@ -50,7 +56,7 @@ public class Recognizer {
     }
 
     // ------------------- Constructor --------------------
-    public Recognizer(ArrayList<Lexeme> lexemes) {
+    public Parser(ArrayList<Lexeme> lexemes) {
         this.lexemes = lexemes;
         this.nextLexemeIndex = 0;
         advance();
@@ -58,9 +64,10 @@ public class Recognizer {
     }
 
     // ------------------- Consumption Functions --------------------
-    private Lexeme program() {
+    public Lexeme program() {
         log("program");
         if(statementListPending()) return statementList();
+        else return(new Lexeme(EMPTY_PROGRAM));
     }
 
     private Lexeme statementList() { //complete
@@ -74,6 +81,7 @@ public class Recognizer {
     }
 
     private Lexeme block() { //complete
+        log("block");
         Lexeme block = consume(OPEN_BRACKET);
         block.addChild(statementList());
         consume(CLOSED_BRACKET);
@@ -81,6 +89,7 @@ public class Recognizer {
     }
 
     private Lexeme assignment() { //complete
+        log("assignment");
         Lexeme assignment = consume(IDENTIFIER);
         consume(EQUALS);
         assignment.addChild(expression());
@@ -93,10 +102,11 @@ public class Recognizer {
     }
 
     private Lexeme expression() { //complete
-        Lexeme expression = new Lexeme(EXPRESSION);
-        if(binaryExpressionPending()) expression.addChild(binaryExpression());
-        else if(primaryPending()) expression.addChild(primary());
-        else if(unaryExpressionPending()) expression.addChild(unaryExpression());
+        log("expression");
+        Lexeme expression;
+        if(binaryExpressionPending()) expression = (binaryExpression());
+        else if(primaryPending()) expression = (primary());
+        else if(unaryExpressionPending()) expression = (unaryExpression());
         else {
             error("this is not an expression! you gave me '" + currentLexeme + "' and idk what this is lol :)");
             expression = null;
@@ -108,6 +118,7 @@ public class Recognizer {
     }
 
     private Lexeme binaryExpression() { //complete
+        log("binary expression");
         Lexeme binaryExpression = new Lexeme(BINARY_EXPRESSION);
         binaryExpression.addChild(primary());
         binaryExpression.addChild(binaryOperator());
@@ -120,16 +131,16 @@ public class Recognizer {
 
     private Lexeme functionDefinition() { //INCOMPLEET WHY WHAT DO I DO HELP
         log("function_definition");
-        Lexeme functionDefinition = dataType();
+        Lexeme functionDefinition = new Lexeme(FUNCTION_DEFINITION);
+        functionDefinition.addChild(dataType());
         functionDefinition.addChild(consume(IDENTIFIER));
-        consume(OPEN_PARENTHESIS);
+        consume(REQUIRES);
         functionDefinition.addChild(parameterList());
-        consume(CLOSED_PARENTHESIS);
         functionDefinition.addChild(block());
         return functionDefinition;
     }
     private boolean functionDefinitionPending() {
-        return dataTypePending();
+        return dataTypePending() && checkNext(IDENTIFIER) && checkTwoNext(REQUIRES);
     }
 
     private Lexeme parameterList() { //INCOPLETE HELP WHY WHAT DO I DO HERE
@@ -144,6 +155,7 @@ public class Recognizer {
 
 
     private Lexeme statement() { //complete
+        log("statement");
         Lexeme statement = null;
         if(functionCallPending()) statement = functionCall();
         else if(assignmentPending()) statement = assignment();
@@ -161,6 +173,7 @@ public class Recognizer {
     }
 
     private Lexeme variableDeclaration() { //complete
+        log("variable declaration");
         Lexeme variableDeclaration = new Lexeme(VARIABLE_DECLARATION);
         variableDeclaration.addChild(dataType());
         variableDeclaration.addChild(consume(IDENTIFIER));
@@ -172,11 +185,12 @@ public class Recognizer {
     }
 
     private Lexeme initialization() { //complete
+        log("initialization");
         Lexeme initialization = new Lexeme(INITIALIZATION);
         initialization.addChild(dataType());
         initialization.addChild(consume(IDENTIFIER));
         consume(EQUALS);
-        initialization.addChild(primary());
+        initialization.addChild(expression());
         consume(SEMICOLON);
         return initialization;
     }
@@ -185,6 +199,7 @@ public class Recognizer {
     }
 
     private Lexeme loopStatement() {
+        log("loop statement");
         Lexeme loopStatement = new Lexeme(FOR_STATEMENT);
         consume(TIMETRIAL);
         if(forStatementPending()) loopStatement.addChild(forStatement());
@@ -197,7 +212,9 @@ public class Recognizer {
     }
 
     private Lexeme forStatement() {
+        log("for statement");
         Lexeme forStatement = new Lexeme(FOR_STATEMENT);
+        consume(FROM);
         consume(LAP);
         forStatement.addChild(consume(INT));
         consume(TO);
@@ -212,6 +229,7 @@ public class Recognizer {
     }
 
     private Lexeme whileStatement() {
+        log("while statement");
         Lexeme whileStatement = new Lexeme(WHILE_STATEMENT);
         consume(TO);
         consume(LAP);
@@ -224,6 +242,7 @@ public class Recognizer {
     }
 
     private Lexeme conditionalBlock() {
+        log("conditional block");
         Lexeme conditionalBlock = new Lexeme(CONDITIONAL_BLOCK);
         conditionalBlock.addChild(ifStatement());
         while(elseIfStatementPending()) conditionalBlock.addChild(elseIfStatement());
@@ -235,6 +254,7 @@ public class Recognizer {
     }
 
     private Lexeme ifStatement() {
+        log("if statement");
         Lexeme ifStatement = new Lexeme(IF_STATEMENT);
         consume(FIRST);
         consume(OPEN_PARENTHESIS);
@@ -248,6 +268,7 @@ public class Recognizer {
     }
 
     private Lexeme elseIfStatement() { //i am not doing this rn but reminder to come back to this
+        log("else if statement");
         Lexeme elseIfStatement = new Lexeme(ELSE_IF_STATEMENT);
         if(check(SECOND)) {
             consume(SECOND);
@@ -318,7 +339,7 @@ public class Recognizer {
             consume(ELEVENTH);
             consume(OPEN_PARENTHESIS);
             elseIfStatement.addChild(expression());
-            elseIfStatement.addChild(consume(CLOSED_PARENTHESIS));
+            consume(CLOSED_PARENTHESIS);
             elseIfStatement.addChild(block());
         }
         else { error("Malformed else-if statement. Error at: '" + currentLexeme + "'."); }
@@ -329,20 +350,21 @@ public class Recognizer {
     }
 
     private Lexeme elseStatement() {
+        log("else statement");
+        Lexeme elseStatement = new Lexeme(ELSE_STATEMENT);
         if(check(TWELFTH)) {
-            Lexeme elseStatement = consume(TWELFTH);
+            consume(TWELFTH);
             elseStatement.addChild(block());
-            return elseStatement;
         }
         else if(check(LAST)) {
-            Lexeme elseStatement = consume(LAST);
+            consume(LAST);
             elseStatement.addChild(block());
-            return elseStatement;
         }
         else {
             error("Malformed else statement. Error at: '" + currentLexeme + "'.");
-            return null;
+            elseStatement = null;
         }
+        return elseStatement;
     }
     private boolean elseStatementPending() {
         return check(TWELFTH) || check(LAST);
@@ -350,6 +372,7 @@ public class Recognizer {
 
 
     private Lexeme primary() {
+        log("primary");
         Lexeme primary;
         if(check(INT)) primary = consume(INT);
         else if(check(REAL)) primary = consume(REAL);
@@ -369,10 +392,12 @@ public class Recognizer {
     }
 
     private Lexeme functionCall() {
-        Lexeme functionCall = consume(IDENTIFIER);
-        functionCall.addChild(consume(OPEN_PARENTHESIS));
+        log("function call");
+        Lexeme functionCall = new Lexeme(FUNCTION_CALL);
+        functionCall.addChild(consume(IDENTIFIER));
+        consume(OPEN_PARENTHESIS);
         while(parameterPending()) functionCall.addChild(parameter());
-        functionCall.addChild(consume(CLOSED_PARENTHESIS));
+        consume(CLOSED_PARENTHESIS);
         return functionCall;
     }
     private boolean functionCallPending() {
@@ -380,7 +405,8 @@ public class Recognizer {
     }
 
     private Lexeme parameter() {
-        Lexeme parameter = new Lexeme(PARAMETER, -1);
+        log("parameter");
+        Lexeme parameter = new Lexeme(PARAMETER);
         parameter.addChild(dataType());
         parameter.addChild(consume(IDENTIFIER));
         if(check(COMMA)) consume(COMMA);
@@ -391,6 +417,7 @@ public class Recognizer {
     }
 
     private Lexeme dataType() {
+        log("data type");
         Lexeme dataType;
         if(check(STRING)) dataType = consume(STRING);
         else if(check(INT)) dataType = consume(INT);
@@ -408,6 +435,7 @@ public class Recognizer {
     }
 
     private Lexeme parenthesizedExpression() {
+        log("parenthesized expression");
         Lexeme parenthesizedExpression = consume(OPEN_PARENTHESIS);
         while(expressionPending()) parenthesizedExpression.addChild(expression());
         parenthesizedExpression.addChild(consume(CLOSED_PARENTHESIS));
@@ -418,6 +446,7 @@ public class Recognizer {
     }
 
     private Lexeme booleanLiteral() {
+        log("boolean literal");
         Lexeme booleanLiteral;
         if(check(FALSE)) booleanLiteral = consume(FALSE);
         else if(check(TRUE)) booleanLiteral = consume(TRUE);
@@ -432,6 +461,7 @@ public class Recognizer {
     }
 
     private Lexeme unaryExpression() {
+        log("unary expression");
         Lexeme unaryExpression;
         if(primaryPending()) {
             unaryExpression = primary();
@@ -452,6 +482,7 @@ public class Recognizer {
     }
 
     private Lexeme unaryPostOperator() {
+        log("unary post operator");
         Lexeme unaryPostOperator;
         if(check(PLUS_PLUS)) unaryPostOperator = consume(PLUS_PLUS);
         else if(check(MINUS_MINUS)) unaryPostOperator = consume(MINUS_MINUS);
@@ -466,6 +497,7 @@ public class Recognizer {
     }
 
     private Lexeme unaryPreOperator() {
+        log("unary pre operator");
         Lexeme unaryPreOperator = null;
         if(check(NOT)) unaryPreOperator = consume(NOT);
         else if(check(MINUS)) unaryPreOperator = consume(MINUS);
@@ -477,6 +509,7 @@ public class Recognizer {
     }
 
     private Lexeme binaryOperator() {
+        log("binary operator");
         Lexeme binaryOperator = null;
         if(simpleMathOperatorPending()) binaryOperator = simpleMathOperator();
         else if(comparatorPending()) binaryOperator = comparator();
@@ -489,6 +522,7 @@ public class Recognizer {
     }
 
     private Lexeme booleanOperators() {
+        log("boolean operator");
         Lexeme booleanOperators = null;
         if(check(AND)) booleanOperators = consume(AND);
         else if(check(OR)) booleanOperators = consume(OR);
@@ -500,6 +534,7 @@ public class Recognizer {
     }
 
     private Lexeme simpleMathOperator() {
+        log("simple math operator");
         Lexeme simpleMathOperator = null;
         if(check(PLUS)) simpleMathOperator = consume(PLUS);
         else if(check(MINUS)) simpleMathOperator = consume(MINUS);
@@ -514,6 +549,7 @@ public class Recognizer {
     }
 
     private Lexeme comparator() {
+        log("comparator");
         Lexeme comparator = null;
         if(check(GREATER_THAN)) comparator = consume(GREATER_THAN);
         else if(check(LESS_THAN)) comparator = consume(LESS_THAN);
