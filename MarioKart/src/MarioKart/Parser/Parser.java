@@ -165,6 +165,7 @@ public class Parser {
         else if(initializationPending()) statement = initialization();
         else if(variableDeclarationPending()) statement = variableDeclaration();
         else { error("Malformed statement. Error at: '" + currentLexeme + "'."); }
+        if(check(SEMICOLON)) consume(SEMICOLON);
 
         return statement;
     }
