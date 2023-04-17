@@ -90,7 +90,8 @@ public class Parser {
 
     private Lexeme assignment() { //complete
         log("assignment");
-        Lexeme assignment = consume(IDENTIFIER);
+        Lexeme assignment = new Lexeme(ASSIGNMENT);
+        assignment.addChild(consume(IDENTIFIER));
         consume(EQUALS);
         assignment.addChild(expression());
         consume(SEMICOLON);

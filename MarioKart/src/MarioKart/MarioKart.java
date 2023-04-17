@@ -49,9 +49,9 @@ public class MarioKart {
         Environment globalEnvironment = new Environment();
 
         //Evaluation
-        // Evaluator evaluator = new Evaluator();
-        // Lexeme programResult = evaluator.eval(programParseTree, globalEnvironment);
-        // System.out.println("Program result: " + programResult);
+        Evaluator evaluator = new Evaluator();
+        Lexeme programResult = evaluator.eval(programParseTree, globalEnvironment);
+        System.out.println("Program result: " + programResult);
 
 
         //print all my errors pls

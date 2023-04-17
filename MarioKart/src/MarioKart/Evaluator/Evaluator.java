@@ -30,9 +30,11 @@ public class Evaluator {
             // Identifiers can simply be looked up
             case IDENTIFIER -> environment.lookup(tree);
 
-            
             case FUNCTION_DEFINITION -> evalFunctionDefinition(tree, environment);
             case FUNCTION_CALL -> evalFunctionCall(tree, environment);
+
+            case INITIALIZATION -> evalInitialization(tree, environment);
+            case ASSIGNMENT -> evalAssignment(tree, environment);
 
             default -> error("Cannor evaluate " + tree, tree.getLineNumber());
         };
@@ -78,7 +80,22 @@ public class Evaluator {
         return tree;
     }
 
+    private Lexeme evalInitialization(Lexeme tree, Environment environment) {
+        Lexeme ID = tree.getChild(1);
+        Lexeme value = eval(tree.getChild(2),environment);
+        if(tree.getChild(0).getType() != value.getType()) {
+            error("your types in your initialization do not match buster.", tree.getLineNumber());
+        }
+        environment.add(value.getType(), ID, value);
+        return ID;
+    }
 
+    private Lexeme evalAssignment(Lexeme tree, Environment environment) {
+        Lexeme ID = tree.getChild(0);
+        Lexeme value = eval(tree.getChild(1),environment);
+        environment.update(ID, value);
+        return null;
+    }
 
 }
     
