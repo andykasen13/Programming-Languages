@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "EnvironmentTest",
+            "request": "launch",
+            "mainClass": "MarioKart.Environments.EnvironmentTest",
+            "projectName": "MarioKart_7e87e715"
+        },
+        {
+            "type": "java",
             "name": "Launch Current File",
             "request": "launch",
             "mainClass": "${file}",

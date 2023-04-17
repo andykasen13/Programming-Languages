@@ -7,6 +7,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import MarioKart.LexicalAnalysis.Lexer;
+import MarioKart.Environments.Environment;
+import MarioKart.Evaluator.Evaluator;
 import MarioKart.LexicalAnalysis.Lexeme;
 import MarioKart.Parser.Parser;
 
@@ -42,6 +44,15 @@ public class MarioKart {
         Parser parser = new Parser(lexemes);
         Lexeme programParseTree = parser.program();
         programParseTree.printAsParseTree();
+
+        //Environments
+        Environment globalEnvironment = new Environment();
+
+        //Evaluation
+        // Evaluator evaluator = new Evaluator();
+        // Lexeme programResult = evaluator.eval(programParseTree, globalEnvironment);
+        // System.out.println("Program result: " + programResult);
+
 
         //print all my errors pls
         printErrors();
