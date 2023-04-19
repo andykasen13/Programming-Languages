@@ -112,7 +112,11 @@ public class Evaluator {
             letterMap.put(alphabet[i], i);
         }
 
-        if(binaryOperator.getType() == PLUS) add(num1, num2);
+        //TODO: reminder to check that both line numbers line up 
+
+        if(binaryOperator.getType() == PLUS) return (add(num1, num2));
+
+        else return null;
     }
 
 
@@ -129,27 +133,19 @@ public class Evaluator {
             int num1Val = num1.getIntValue();
 
             // int + int --> just add them
-            if(num2.isInt()) { 
-                return new Lexeme(lineNum, num1Val + num2.getIntValue(), INT);
-            }
+            if(num2.isInt())  return new Lexeme(lineNum, num1Val + num2.getIntValue(), INT);
+
             // int + double --> truncate the double
-            else if(num2.isReal()) {
-                return new Lexeme(lineNum, num1Val + (int)num2.getRealValue(), INT);
-            }
+            else if(num2.isReal()) return new Lexeme(lineNum, num1Val + (int)num2.getRealValue(), INT);
+
             // int + string --> turn the int into a string
-            else if(num2.isString()) {
-                return new Lexeme(lineNum, Integer.toString(num1Val) + num2.getWord(), STRING);
-            }
+            else if(num2.isString()) return new Lexeme(lineNum, Integer.toString(num1Val) + num2.getWord(), STRING);
 
             // int + boolean --> false = 0, true = 1
-            else if(num2.isBool()) {
-                return new Lexeme(lineNum, num1Val + (num2.getBoolValue() ? 1 : 0), INT);
-            }
+            else if(num2.isBool()) return new Lexeme(lineNum, num1Val + (num2.getBoolValue() ? 1 : 0), INT);
 
             // int + char --> alphabet
-            else if(num2.isChar()) {
-                return new Lexeme(lineNum, num1Val + (int)num2.getCharValue(), INT);
-            }
+            else if(num2.isChar()) return new Lexeme(lineNum, num1Val + (int)num2.getCharValue(), INT);
         }
 
         // REAL REAL REAL REAL REAL REAL REAL REAL
@@ -157,29 +153,19 @@ public class Evaluator {
             double num1Val = num1.getRealValue();
 
             // real + int --> turn int into real
-            if(num2.isInt()) {
-                return new Lexeme(lineNum, num1Val + Double.valueOf(num2.getIntValue()), REAL);
-            }
+            if(num2.isInt()) return new Lexeme(lineNum, num1Val + Double.valueOf(num2.getIntValue()), REAL);
 
             // real + real --> just add them
-            else if(num2.isReal()) {
-                return new Lexeme(lineNum, num1Val + num2.getRealValue(), REAL);
-            }
+            else if(num2.isReal()) return new Lexeme(lineNum, num1Val + num2.getRealValue(), REAL);
 
             // real + string --> turn real into string
-            else if(num2.isString()) {
-                return new Lexeme(lineNum, num1Val + num2.getWord(), STRING);
-            }
+            else if(num2.isString()) return new Lexeme(lineNum, num1Val + num2.getWord(), STRING);
 
             // real + boolean --> false = 0, true = 1
-            else if(num2.isBool()) {
-                return new Lexeme(lineNum, num1Val + (num2.getBoolValue() ? 0.0 : 1.0), REAL);
-            }
+            else if(num2.isBool()) return new Lexeme(lineNum, num1Val + (num2.getBoolValue() ? 0.0 : 1.0), REAL);
 
             // real + char --> alphabet
-            else if(num2.isChar()) {
-                return new Lexeme(lineNum, num1Val + Double.valueOf((int)num2.getCharValue()), REAL);
-            }
+            else if(num2.isChar()) return new Lexeme(lineNum, num1Val + Double.valueOf((int)num2.getCharValue()), REAL);
         }
 
         //STRING STRING STRING STRING STRING STRING STRING STRING
@@ -187,29 +173,19 @@ public class Evaluator {
             String num1Val = num1.getWord();
 
             // string + int --> int to string
-            if(num2.isInt()) {
-                return new Lexeme(lineNum, num1Val + Integer.toString(num2.getIntValue()), STRING);
-            }
+            if(num2.isInt()) return new Lexeme(lineNum, num1Val + Integer.toString(num2.getIntValue()), STRING);
 
             // string + double --> double to string
-            else if(num2.isReal()) {
-                return new Lexeme(lineNum, num1Val + num2.getRealValue(), STRING);
-            }
+            else if(num2.isReal()) return new Lexeme(lineNum, num1Val + num2.getRealValue(), STRING);
 
             // string + string --> just add normally
-            else if(num2.isString()) {
-                return new Lexeme(lineNum, num1Val + num2.getWord(), STRING);
-            }
+            else if(num2.isString()) return new Lexeme(lineNum, num1Val + num2.getWord(), STRING);
 
             // string + boolean --> boolean to string
-            else if(num2.isBool()) {
-                return new Lexeme(lineNum, num1Val + num2.getBoolValue(), STRING);
-            }
+            else if(num2.isBool()) return new Lexeme(lineNum, num1Val + num2.getBoolValue(), STRING);
 
             // string + char --> char to string
-            else if(num2.isChar()) {
-                return new Lexeme(lineNum, num1Val + Character.toString(num2.getCharValue()), STRING);
-            }
+            else if(num2.isChar()) return new Lexeme(lineNum, num1Val + Character.toString(num2.getCharValue()), STRING);
         }
 
         // BOOL BOOL BOOL BOOL BOOL BOOL BOOL BOOL
@@ -233,27 +209,70 @@ public class Evaluator {
             }
 
             // bool + string --> convert bool to string
-            else if(num2.isString()) {
-                return new Lexeme(lineNum, num1Val + num2.getWord(), STRING);
-            }
+            else if(num2.isString()) return new Lexeme(lineNum, num1Val + num2.getWord(), STRING);
 
             // bool + bool --> or operator
-            else if(num2.isBool()) {
-                return new Lexeme(lineNum, num1Val || num2.getBoolValue(), BOOLEAN);
-            }
+            else if(num2.isBool()) return new Lexeme(lineNum, num1Val || num2.getBoolValue(), BOOLEAN);
 
             // bool + char --> error
             else if(num2.isChar()) {
-                error("you cannot add a boolean and a char. why? because i am lazy", lineNum);
+                error("you cannot add a boolean and a char. why? because i am lazy", lineNum); 
                 return null;
             }
         }
 
+        // CHAR CHAR CHAR CHAR CHAR CHAR CHAR CHAR
         else if(num1.isChar()) {
             char num1Val = num1.getCharValue();
 
-            
+            // char + int --> convert char to int, add, convert back to char
+            if(num2.isInt()) return new Lexeme(lineNum, (char)((num2.getIntValue()) + (num1Val - 0)), CHAR);
+
+            // char + real --> convert real to int, char to int, add, convert back to char
+            else if(num2.isReal()) return new Lexeme(lineNum, (char)((int)(num2.getRealValue()) + (num1Val - 0)), CHAR);
+
+            // char + string --> char to string, add
+            else if(num2.isString())  return new Lexeme(lineNum, (num1Val + num2.getWord()), STRING); 
+
+            // char + bool --> false = no change, true = increase by 1
+            else if(num2.isBool()) return new Lexeme(lineNum, (char)((num1Val + 0) + (num2.getBoolValue() ? 1 : 0)), CHAR);
+
+            // char + char --> regular add
+            else if(num2.isChar()) return new Lexeme(lineNum, num1Val + num2.getCharValue(), CHAR);
+        }
+
+        else {
+            error("You have tried to add two things together that i do not understand. please try again", lineNum);
+            return null;
+        }
+        return null;
+    }
+
+    public Lexeme subtract(Lexeme num1, Lexeme num2) {
+        int lineNum = num1.getLineNumber();
+
+        // INT INT INT INT INT INT INT INT 
+        if(num1.isInt()) {
+            int num1Val = num1.getIntValue();
+
+            // int - int --> regular subtraction
+            if(num2.isInt()) return new Lexeme(lineNum, num1Val - num2.getIntValue(), INT);
+
+            // int - real --> convert int to real, subtract, truncate
+            else if(num2.isReal()) return new Lexeme(lineNum, (int)((double)num1Val - num2.getRealValue()), INT);
+
+            // int - string --> error
+            else if(num2.isString()) {
+                error("You tried to subtract an int from a string and i don't want to code something for that so fix it, now!", lineNum);
+                return null;
+            }
+
+            // int - boolean --> error
+            else if(num2.isBool()) {
+                error("You tried to subtract an int from a boolean and i am a lazy bitch so fix that so i don't have to code logic for that", lineNum);
+            }
         }
     }
+
 }
     
