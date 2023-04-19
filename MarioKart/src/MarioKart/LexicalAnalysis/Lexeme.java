@@ -1,5 +1,6 @@
 package MarioKart.LexicalAnalysis;
 
+import java.io.CharConversionException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -76,6 +77,12 @@ public class Lexeme {
         this.type = myType;
     }
 
+    public Lexeme(int lineNumber, char charValue, Type myType) {
+        this.lineNumber = lineNumber;
+        this.charValue = charValue;
+        this.type = myType;
+    }
+
     public Lexeme(Type type, int lineNumber) {
         this.lineNumber = lineNumber;
         this.type = type;
@@ -105,7 +112,13 @@ public class Lexeme {
     public void setCharValue(char charValue) { this.charValue = charValue; }
     public void setDefiningEnvironment(Environment env) { this.definingEnvironment = env; }
 
-    public Object getValue(Type type) {
+    public boolean isInt() { return type == INT; }
+    public boolean isReal() { return type == REAL; }
+    public boolean isString() { return type == STRING; }
+    public boolean isBool() { return type == BOOLEAN; }
+    public boolean isChar() { return type == CHAR; }
+
+    public Object getValue() {
         return switch (type) {
             case INT -> getIntValue(); 
             case REAL -> getRealValue();

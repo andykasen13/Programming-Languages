@@ -3,6 +3,9 @@ package MarioKart.Evaluator;
 import MarioKart.MarioKart;
 import MarioKart.LexicalAnalysis.Lexeme;
 import static MarioKart.LexicalAnalysis.Type.*;
+
+import java.util.HashMap;
+
 import MarioKart.Environments.Environment;
 
 public class Evaluator {
@@ -97,5 +100,160 @@ public class Evaluator {
         return null;
     }
 
+    private Lexeme evalBinaryExpression(Lexeme tree, Environment environment) {
+        Lexeme num1 = tree.getChild(0);
+        Lexeme num2 = tree.getChild(2);
+        Lexeme binaryOperator = tree.getChild(1);
+
+        //create an alphabet
+        HashMap<Character, Integer> letterMap = new HashMap<>();
+        char[] alphabet = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+        for(int i = 0; i < alphabet.length; i++) {
+            letterMap.put(alphabet[i], i);
+        }
+
+        if(binaryOperator.getType() == PLUS) add(num1, num2);
+    }
+
+
+
+
+    /* ----------------------------------------------- Expression Evaluation  ----------------------------------------------- */
+
+
+    private Lexeme add(Lexeme num1, Lexeme num2) {
+        int lineNum = num1.getLineNumber();
+
+        // INT INT INT INT INT INT INT 
+        if(num1.isInt()) { 
+            int num1Val = num1.getIntValue();
+
+            // int + int --> just add them
+            if(num2.isInt()) { 
+                return new Lexeme(lineNum, num1Val + num2.getIntValue(), INT);
+            }
+            // int + double --> truncate the double
+            else if(num2.isReal()) {
+                return new Lexeme(lineNum, num1Val + (int)num2.getRealValue(), INT);
+            }
+            // int + string --> turn the int into a string
+            else if(num2.isString()) {
+                return new Lexeme(lineNum, Integer.toString(num1Val) + num2.getWord(), STRING);
+            }
+
+            // int + boolean --> false = 0, true = 1
+            else if(num2.isBool()) {
+                return new Lexeme(lineNum, num1Val + (num2.getBoolValue() ? 1 : 0), INT);
+            }
+
+            // int + char --> alphabet
+            else if(num2.isChar()) {
+                return new Lexeme(lineNum, num1Val + (int)num2.getCharValue(), INT);
+            }
+        }
+
+        // REAL REAL REAL REAL REAL REAL REAL REAL
+        else if(num1.isReal()) {
+            double num1Val = num1.getRealValue();
+
+            // real + int --> turn int into real
+            if(num2.isInt()) {
+                return new Lexeme(lineNum, num1Val + Double.valueOf(num2.getIntValue()), REAL);
+            }
+
+            // real + real --> just add them
+            else if(num2.isReal()) {
+                return new Lexeme(lineNum, num1Val + num2.getRealValue(), REAL);
+            }
+
+            // real + string --> turn real into string
+            else if(num2.isString()) {
+                return new Lexeme(lineNum, num1Val + num2.getWord(), STRING);
+            }
+
+            // real + boolean --> false = 0, true = 1
+            else if(num2.isBool()) {
+                return new Lexeme(lineNum, num1Val + (num2.getBoolValue() ? 0.0 : 1.0), REAL);
+            }
+
+            // real + char --> alphabet
+            else if(num2.isChar()) {
+                return new Lexeme(lineNum, num1Val + Double.valueOf((int)num2.getCharValue()), REAL);
+            }
+        }
+
+        //STRING STRING STRING STRING STRING STRING STRING STRING
+        else if(num1.isString()) {
+            String num1Val = num1.getWord();
+
+            // string + int --> int to string
+            if(num2.isInt()) {
+                return new Lexeme(lineNum, num1Val + Integer.toString(num2.getIntValue()), STRING);
+            }
+
+            // string + double --> double to string
+            else if(num2.isReal()) {
+                return new Lexeme(lineNum, num1Val + num2.getRealValue(), STRING);
+            }
+
+            // string + string --> just add normally
+            else if(num2.isString()) {
+                return new Lexeme(lineNum, num1Val + num2.getWord(), STRING);
+            }
+
+            // string + boolean --> boolean to string
+            else if(num2.isBool()) {
+                return new Lexeme(lineNum, num1Val + num2.getBoolValue(), STRING);
+            }
+
+            // string + char --> char to string
+            else if(num2.isChar()) {
+                return new Lexeme(lineNum, num1Val + Character.toString(num2.getCharValue()), STRING);
+            }
+        }
+
+        // BOOL BOOL BOOL BOOL BOOL BOOL BOOL BOOL
+        else if(num1.isBool()) {
+            boolean num1Val = num1.getBoolValue();
+
+            // bool + int --> odd = false, even = true
+            if(num2.isInt()) {
+                int x = (num1Val ? 2 : 1);
+                x += num1.getIntValue();
+                if(x % 2 == 0) return new Lexeme(lineNum, true, BOOLEAN);
+                else return new Lexeme(lineNum, false, BOOLEAN);
+            }
+
+            // bool + real --> odd = false, even = true
+            else if(num2.isReal()) {
+                int x = (num1Val ? 2 : 1);
+                x+= (int)num1.getRealValue();
+                if(x % 2 == 0) return new Lexeme(lineNum, true, BOOLEAN);
+                else return new Lexeme(lineNum, false, BOOLEAN);
+            }
+
+            // bool + string --> convert bool to string
+            else if(num2.isString()) {
+                return new Lexeme(lineNum, num1Val + num2.getWord(), STRING);
+            }
+
+            // bool + bool --> or operator
+            else if(num2.isBool()) {
+                return new Lexeme(lineNum, num1Val || num2.getBoolValue(), BOOLEAN);
+            }
+
+            // bool + char --> error
+            else if(num2.isChar()) {
+                error("you cannot add a boolean and a char. why? because i am lazy", lineNum);
+                return null;
+            }
+        }
+
+        else if(num1.isChar()) {
+            char num1Val = num1.getCharValue();
+
+            
+        }
+    }
 }
     

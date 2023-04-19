@@ -153,8 +153,11 @@ public class Environment {
     //------------- toString -------------
     public String toString() {
         String soScuffed = "";
+
+        // determine if the environment is the parent or not
         if(parentEnvironment == null) soScuffed = "This is the global environment";
         else soScuffed = "Parent: " + parentEnvironment.hashCode();
+
         String myString = ("------------------\n" + "Environment " + this.hashCode() + "\n\t" + soScuffed + "\n\t-----------" + "\n\tValues: ");
         for(NamedValue entry : entries) {
             myString = myString + ("\n\t" + entry.toString());
