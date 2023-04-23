@@ -220,6 +220,10 @@ public class Lexer {
         case '"' -> {
             return lexString();
         }
+        case '/' -> {
+            if(match('/')) lexComments();
+            return null;
+        }
         default -> {
             if (isDigit(c)) return lexNumber();
             else if (isAlpha(c)) return lexIdentifierOrKeyword();
@@ -282,6 +286,10 @@ public class Lexer {
         else if(type == FALSE) return new Lexeme(lineNumber, false, FALSE);
 
         return new Lexeme(lineNumber, text, type);
+    }
+
+    private void lexComments() {
+        while( !(isAtEnd() || peek() == '\n')) advance();
     }
 
 }

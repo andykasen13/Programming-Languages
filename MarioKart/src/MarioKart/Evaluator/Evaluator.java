@@ -15,7 +15,6 @@ public class Evaluator {
         MarioKart.runtimeError(message, lexeme);
         return new Lexeme(lexeme.getLineNumber(), message, ERROR);
     }
-
     private Lexeme error(String message, int lineNumber) {
         MarioKart.runtimeError(message, lineNumber);
         return new Lexeme(lineNumber, message, ERROR);
@@ -23,24 +22,29 @@ public class Evaluator {
 
     //--------------------- Evaluation --------------------- (pray for me)
     public Lexeme eval(Lexeme tree, Environment environment) {
-        return switch (tree.getType()) {
+        switch (tree.getType()) {
             // Programs and blocks alike are rooted in STATEMENT_LIST Lexemes
-            case STATEMENT_LIST -> evalStatementList(tree, environment);
+            case STATEMENT_LIST: return evalStatementList(tree, environment);
 
             // Self-Evaluating Types
-            case INT, BOOLEAN, CHAR, STRING, ARRAY, REAL -> tree;
+            case INT, BOOLEAN, CHAR, STRING, ARRAY, REAL: return tree;
 
             // Identifiers can simply be looked up
-            case IDENTIFIER -> environment.lookup(tree);
+            case IDENTIFIER: return environment.lookup(tree);
 
-            case FUNCTION_DEFINITION -> evalFunctionDefinition(tree, environment);
-            case FUNCTION_CALL -> evalFunctionCall(tree, environment);
+            case FUNCTION_DEFINITION: return evalFunctionDefinition(tree, environment);
+            case FUNCTION_CALL: return evalFunctionCall(tree, environment);
 
-            case INITIALIZATION -> evalInitialization(tree, environment);
-            case ASSIGNMENT -> evalAssignment(tree, environment);
+            case INITIALIZATION: return evalInitialization(tree, environment);
+            case ASSIGNMENT: return evalAssignment(tree, environment);
 
-            default -> error("Cannor evaluate " + tree, tree.getLineNumber());
-        };
+            case BINARY_EXPRESSION: return evalBinaryExpression(tree, environment);
+
+            default: {
+                error("Cannor evaluate " + tree, tree);
+                return null;
+            }
+        }
     }
 
     private Lexeme evalStatementList(Lexeme tree, Environment environment) {
@@ -251,7 +255,6 @@ public class Evaluator {
     public Lexeme subtract(Lexeme num1, Lexeme num2) {
         int lineNum = num1.getLineNumber();
 
-        // INT INT INT INT INT INT INT INT 
         if(num1.isInt()) {
             int num1Val = num1.getIntValue();
 
@@ -270,8 +273,76 @@ public class Evaluator {
             // int - boolean --> error
             else if(num2.isBool()) {
                 error("You tried to subtract an int from a boolean and i am a lazy bitch so fix that so i don't have to code logic for that", lineNum);
+                return null;
+            }
+
+            // int - char --> error
+            else if(num2.isChar()) {
+                error("You tried to subtract a char from an int and that is not supported.", lineNum);
             }
         }
+
+        else if(num1.isReal()) {
+            if(num2.isInt()) return new Lexeme(lineNum, (int)num1.getRealValue() - num2.getIntValue(), INT);
+            else if(num2.isReal()) return new Lexeme(lineNum, num1.getRealValue() - num2.getRealValue(), REAL);
+            else if(num2.isString()) error("You tried to subtract a STRING from a REAL. MarioKart does not support this.", lineNum);
+            else if(num2.isBool()) error("You tried to subtract a BOOLEAN from a REAL. MarioKart does not support this.", lineNum);
+            else if(num2.isChar()) error("You tried to subtract a CHAR from a REAL. MarioKart does not support this.", lineNum);
+        } else if(num1.isString()) {
+            if(num2.isInt()) return new Lexeme(lineNum, num1.getWord().substring(0, num1.getWord().length() - num2.getIntValue()), STRING);
+            else if(num2.isReal()) error("You tried to subtract a REAL from a STRING. MarioKart does not support this.", lineNum);
+            else if(num2.isString()) {
+                String num1Value = num1.getWord();
+                String num2Value = num2.getWord();
+                if(num1Value.contains((CharSequence) num2)) return new Lexeme(lineNum, num1Value.replaceAll(num2Value, ""), STRING); 
+                else return new Lexeme(lineNum, num1Value, STRING);
+            }
+            else if(num2.isBool()) {
+                if(!num2.getBoolValue()) return new Lexeme(lineNum, "", STRING);
+                else return num1;
+            }
+            else if(num2.isChar()) return new Lexeme(lineNum, num1.getWord().replaceAll(num2.getCharValue() + "", ""), STRING);
+        } else if(num1.isBool()) {
+            if(num2.isInt()) return new Lexeme(lineNum, (num2.getIntValue() % 2 == 0) ? num1.getBoolValue() : !num1.getBoolValue(), BOOLEAN);
+            else if(num2.isReal()) return new Lexeme(lineNum, ((int)num2.getRealValue() % 2 == 0) ? num1.getBoolValue() : !num1.getBoolValue(), BOOLEAN);
+        } else if(num1.isChar()) {
+            if(num2.isChar()) return new Lexeme(lineNum, num1.getCharValue() - num2.getCharValue(), CHAR);
+        }
+        error("You tried to subtract a type " + num2.getType() + " from a type " + num1.getType() + ". MarioKart does not support this.", lineNum);
+        return null;
+    }
+
+    public Lexeme multiply(Lexeme num1, Lexeme num2) {
+        int lineNum = num1.getLineNumber();
+
+        if(num1.isInt()) {
+            if(num2.isInt()) return new Lexeme(lineNum, num1.getIntValue() * num2.getIntValue(), INT);
+            else if(num2.isReal()) return new Lexeme(lineNum, num1.getIntValue() * (int)num2.getRealValue(), INT);
+            else if(num2.isString()) return new Lexeme(lineNum, num2.getWord().repeat(num1.getIntValue()), STRING);
+        } else if(num1.isReal()) {
+            if(num2.isInt()) return new Lexeme(lineNum, num1.getIntValue() * (int)num2.getRealValue(), INT);
+            else if(num2.isReal()) return new Lexeme(lineNum, num1.getRealValue() * num2.getRealValue(), REAL);
+        } else if(num1.isString()) {
+            if(num2.isInt()) return new Lexeme(lineNum, num1.getWord().repeat(num2.getIntValue()), STRING);
+            else if(num2.isString()) return new Lexeme(lineNum, num1.getWord().substring(0, num1.getWord().length()/2) + num2.getWord() + num1.getWord().substring(num1.getWord().length()/2, num1.getWord().length()), STRING);
+        } else if(num1.isBool()) {
+            if(num2.isBool()) return new Lexeme(lineNum, num1.getBoolValue() && num2.getBoolValue(), BOOLEAN);
+        }
+
+        error("You tried to multiply a type " + num1.getType() + " and a type " + num2.getType() + ". MarioKart does not support this.", lineNum);
+        return null;
+    }
+
+    public Lexeme divide(Lexeme num1, Lexeme num2) {
+        int lineNum = num1.getLineNumber();
+
+        if(num1.isInt()) {
+            if(num2.isInt()) return new Lexeme(lineNum, num1.getIntValue() / num2.getIntValue(), INT);
+            else if(num2.isReal()) return new Lexeme(lineNum, (double)num1.getIntValue() / num2.getRealValue(), REAL);
+        }
+
+        error("You tried to divide a type " + num2.getType() + " by a type " + num1.getType() + ". MarioKart does not support this.", lineNum);
+        return null;
     }
 
 }

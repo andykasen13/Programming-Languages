@@ -1,0 +1,23 @@
+String letterGrade requires int grade {
+    first grade isBetterThan 90 return "You have an A!";
+    second grade isBetterThan 80 return "You have a B!";
+    third grade isBetterThan 70 return "You have a C!";
+    last return "You are failing.";
+}
+
+summon letterGrade using 82; 
+
+//will return "You have a B!"
+
+time trial from lap 0 to 80 by 5 {
+    spinOut(lap);
+}
+
+int score = 5;
+
+score multiMushroom 5;
+
+score overtake;
+
+spinOut(score);
+//will print out 11

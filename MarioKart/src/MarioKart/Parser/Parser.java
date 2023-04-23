@@ -127,7 +127,7 @@ public class Parser {
         return binaryExpression;
     }
     private boolean binaryExpressionPending() {
-        return primaryPending();
+        return primaryPending() && binaryOperatorPendingNext(); 
     }
 
     private Lexeme functionDefinition() { //INCOMPLEET WHY WHAT DO I DO HELP
@@ -154,6 +154,15 @@ public class Parser {
         return parameterPending();
     }
 
+    private Lexeme argumentList() {
+        log("argument_list");
+        Lexeme argumentList = new Lexeme(ARGUMENT_LIST);
+        while(primaryPending()) {
+            argumentList.addChild(primary());
+        }
+        return argumentList;
+
+    }
 
     private Lexeme statement() { //complete
         log("statement");
@@ -183,7 +192,7 @@ public class Parser {
         return variableDeclaration;
     }
     private boolean variableDeclarationPending() {
-        return dataTypePending() && checkNext(IDENTIFIER);
+        return dataTypePending() && checkNext(IDENTIFIER) && checkTwoNext(SEMICOLON);
     }
 
     private Lexeme initialization() { //complete
@@ -197,7 +206,7 @@ public class Parser {
         return initialization;
     }
     private boolean initializationPending() {
-        return dataTypePending();
+        return dataTypePending() && checkNext(IDENTIFIER) && checkTwoNext(EQUALS);
     }
 
     private Lexeme loopStatement() {
@@ -243,12 +252,29 @@ public class Parser {
         return check(TO);
     }
 
+    // private Lexeme conditionalBlock() {
+    //     log("conditional block");
+    //     Lexeme conditionalBlock = new Lexeme(CONDITIONAL_BLOCK);
+    //     conditionalBlock.addChild(ifStatement());
+    //     while(elseIfStatementPending()) conditionalBlock.addChild(elseIfStatement());
+    //     if(elseStatementPending()) conditionalBlock.addChild(elseStatement());
+    //     return conditionalBlock;
+    // }
+
     private Lexeme conditionalBlock() {
-        log("conditional block");
+        log("conditionalBlock");
         Lexeme conditionalBlock = new Lexeme(CONDITIONAL_BLOCK);
-        conditionalBlock.addChild(ifStatement());
-        while(elseIfStatementPending()) conditionalBlock.addChild(elseIfStatement());
-        if(elseIfStatementPending()) conditionalBlock.addChild(elseStatement());
+        ifStatement();
+        Type[] places = new Type[] {SECOND, THIRD, FOURTH, FIFTH, SIXTH, SEVENTH, EIGHTH, NINTH, TENTH, ELEVENTH};
+        int placesLocation = 0;
+        while(elseIfStatementPending()) {
+            consume(places[placesLocation]);
+            Lexeme elseIfStatement = new Lexeme(ELSE_IF_STATEMENT);
+            elseIfStatement.addChild(expression());
+            elseIfStatement.addChild(block());
+            conditionalBlock.addChild((elseIfStatement));
+        }
+        if(elseStatementPending()) conditionalBlock.addChild(elseStatement());
         return conditionalBlock;
     }
     private boolean conditionalBlockPending() {
@@ -269,84 +295,6 @@ public class Parser {
         return check(FIRST);
     }
 
-    private Lexeme elseIfStatement() { //i am not doing this rn but reminder to come back to this
-        log("else if statement");
-        Lexeme elseIfStatement = new Lexeme(ELSE_IF_STATEMENT);
-        if(check(SECOND)) {
-            consume(SECOND);
-            consume(OPEN_PARENTHESIS);
-            elseIfStatement.addChild(expression());
-            consume(CLOSED_PARENTHESIS);
-            elseIfStatement.addChild(block());
-        }
-        else if(check(THIRD)) {
-            consume(THIRD);
-            consume(OPEN_PARENTHESIS);
-            elseIfStatement.addChild(expression());
-            consume(CLOSED_PARENTHESIS);
-            elseIfStatement.addChild(block());
-        }
-        else if(check(FOURTH)) {
-            consume(FOURTH);
-            consume(OPEN_PARENTHESIS);
-            elseIfStatement.addChild(expression());
-            consume(CLOSED_PARENTHESIS);
-            elseIfStatement.addChild(block());
-        }
-        else if(check(FIFTH)) {
-            consume(FIFTH);
-            consume(OPEN_PARENTHESIS);
-            elseIfStatement.addChild(expression());
-            consume(CLOSED_PARENTHESIS);
-            elseIfStatement.addChild(block());
-        }
-        else if(check(SIXTH)) {
-            consume(SIXTH);
-            consume(OPEN_PARENTHESIS);
-            elseIfStatement.addChild(expression());
-            consume(CLOSED_PARENTHESIS);
-            elseIfStatement.addChild(block());
-        }
-        else if(check(SEVENTH)) {
-            consume(SEVENTH);
-            consume(OPEN_PARENTHESIS);
-            elseIfStatement.addChild(expression());
-            consume(CLOSED_PARENTHESIS);
-            elseIfStatement.addChild(block());
-        }
-        else if(check(EIGHTH)) {
-            consume(EIGHTH);
-            consume(OPEN_PARENTHESIS);
-            elseIfStatement.addChild(expression());
-            consume(CLOSED_PARENTHESIS);
-            elseIfStatement.addChild(block());
-        }
-        else if(check(NINTH)) {
-            consume(NINTH);
-            consume(OPEN_PARENTHESIS);
-            elseIfStatement.addChild(expression());
-            consume(CLOSED_PARENTHESIS);
-            elseIfStatement.addChild(block());
-        }
-        else if(check(TENTH)) {
-            consume(TENTH);
-            consume(OPEN_PARENTHESIS);
-            elseIfStatement.addChild(expression());
-            consume(CLOSED_PARENTHESIS);
-            elseIfStatement.addChild(block());
-        }
-
-        //Test
-        else if(check(ELEVENTH)) {
-            consume(ELEVENTH);
-            consume(OPEN_PARENTHESIS);
-            elseIfStatement.addChild(expression());
-            consume(CLOSED_PARENTHESIS);
-            elseIfStatement.addChild(block());
-        }
-        else { error("Malformed else-if statement. Error at: '" + currentLexeme + "'."); }
-        return elseIfStatement;
-    }
     private boolean elseIfStatementPending() {
         return check(SECOND) || check(THIRD) || check(FOURTH) || check(FIFTH) || check(SIXTH) || check(SEVENTH) || check(EIGHTH) || check(NINTH) || check(TENTH) || check(ELEVENTH);
     }
@@ -372,7 +320,6 @@ public class Parser {
         return check(TWELFTH) || check(LAST);
     }
 
-
     private Lexeme primary() {
         log("primary");
         Lexeme primary;
@@ -394,12 +341,14 @@ public class Parser {
     }
 
     private Lexeme functionCall() {
-        log("function call");
+        log("function_call");
         Lexeme functionCall = new Lexeme(FUNCTION_CALL);
+        consume(SUMMON);
         functionCall.addChild(consume(IDENTIFIER));
-        consume(OPEN_PARENTHESIS);
-        while(parameterPending()) functionCall.addChild(parameter());
-        consume(CLOSED_PARENTHESIS);
+        if(check(USING)) {
+            consume(USING);
+            functionCall.addChild(argumentList());
+        }
         return functionCall;
     }
     private boolean functionCallPending() {
@@ -480,7 +429,7 @@ public class Parser {
         return unaryExpression;
     }
     private boolean unaryExpressionPending() {
-        return primaryPending() || unaryPreOperatorPending();
+        return primaryPending() || unaryPreOperatorPending(); //TODO: turn this into checking if there is a unarypostoperator one after the beginning
     }
 
     private Lexeme unaryPostOperator() {
@@ -522,6 +471,9 @@ public class Parser {
     private boolean binaryOperatorPending() {
         return simpleMathOperatorPending() || comparatorPending() || booleanOperatorsPending();
     }
+    private boolean binaryOperatorPendingNext() {
+        return simpleMathOperatorPendingNext() || comparatorPendingNext() || booleanOperatorsPendingNext();
+    }
 
     private Lexeme booleanOperators() {
         log("boolean operator");
@@ -533,6 +485,9 @@ public class Parser {
     }
     private boolean booleanOperatorsPending() {
         return check(AND) || check(OR);
+    }
+    private boolean booleanOperatorsPendingNext() {
+        return checkNext(AND) || checkNext(OR);
     }
 
     private Lexeme simpleMathOperator() {
@@ -549,6 +504,9 @@ public class Parser {
     private boolean simpleMathOperatorPending() {
         return check(PLUS) || check(MINUS) || check(TIMES) || check(DIVIDED_BY) || check(MOD);
     }
+    private boolean simpleMathOperatorPendingNext() {
+        return checkNext(PLUS) || checkNext(MINUS) || checkNext(TIMES) || checkNext(DIVIDED_BY) || checkNext(MOD);
+    }
 
     private Lexeme comparator() {
         log("comparator");
@@ -564,6 +522,9 @@ public class Parser {
     }
     private boolean comparatorPending() {
         return check(GREATER_THAN_OR_EQUAL_TO) || check(LESS_THAN_OR_EQUAL_TO) || check(GREATER_THAN) || check(LESS_THAN) || check(EQUALS_EQUALS) || check(NOT_EQUALS);
+    }
+    private boolean comparatorPendingNext() {
+        return checkNext(GREATER_THAN_OR_EQUAL_TO) || checkNext(LESS_THAN_OR_EQUAL_TO) || checkNext(GREATER_THAN) || checkNext(LESS_THAN) || checkNext(EQUALS_EQUALS) || checkNext(NOT_EQUALS);
     }
 
 
