@@ -60,7 +60,6 @@ public class Parser {
         this.lexemes = lexemes;
         this.nextLexemeIndex = 0;
         advance();
-        program();
     }
 
     // ------------------- Consumption Functions --------------------
@@ -113,6 +112,7 @@ public class Parser {
             expression = null;
         }
         return expression;
+
     }
     private boolean expressionPending() {
         return binaryExpressionPending() || primaryPending() || unaryExpressionPending();
@@ -165,14 +165,17 @@ public class Parser {
     }
 
     private Lexeme statement() { //complete
-        log("statement");
+        logHeading("statement");
         Lexeme statement = null;
         if(functionCallPending()) statement = functionCall();
         else if(assignmentPending()) statement = assignment();
         else if(conditionalBlockPending()) statement = conditionalBlock();
         else if(loopStatementPending()) statement = loopStatement();
         else if(functionDefinitionPending()) statement = functionDefinition();
-        else if(initializationPending()) statement = initialization();
+        else if(initializationPending()) {
+            statement = initialization(); 
+        }
+        else if(printPending()) statement = print();
         else if(variableDeclarationPending()) statement = variableDeclaration();
         else { error("Malformed statement. Error at: '" + currentLexeme + "'."); }
         if(check(SEMICOLON)) consume(SEMICOLON);
@@ -180,7 +183,17 @@ public class Parser {
         return statement;
     }
     private boolean statementPending() {
-        return functionCallPending() || assignmentPending() || conditionalBlockPending() || loopStatementPending() || functionDefinitionPending() || initializationPending() || variableDeclarationPending();
+        return functionCallPending() || assignmentPending() || conditionalBlockPending() || loopStatementPending() || functionDefinitionPending() || initializationPending() || variableDeclarationPending() || printPending();
+    }
+
+    private Lexeme print() {
+        log("print statement");
+        Lexeme print = consume(PRINT);
+        print.addChild((expression()));
+        return print;
+    }
+    private boolean printPending() {
+        return check(PRINT);
     }
 
     private Lexeme variableDeclaration() { //complete
@@ -323,7 +336,9 @@ public class Parser {
     private Lexeme primary() {
         log("primary");
         Lexeme primary;
-        if(check(INT)) primary = consume(INT);
+        if(check(INT)) {
+            primary = consume(INT);
+        }
         else if(check(REAL)) primary = consume(REAL);
         else if(check(STRING)) primary = consume(STRING);
         else if(check(IDENTIFIER)) primary = consume(IDENTIFIER);

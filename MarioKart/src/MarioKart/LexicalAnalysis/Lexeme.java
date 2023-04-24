@@ -133,20 +133,21 @@ public class Lexeme {
     //-------- toString -----------
     public String toString() {
         if (type == INT && intValue != null)
-            return "\n (line " + lineNumber + ") Type: " + type + ", value: " + intValue;
+            return "(line " + lineNumber + ") Type: " + type + ", value: " + intValue;
         else if (type == REAL && realValue != null)
-            return "\n (line " + lineNumber + ") Type: " + type + ", value: " + realValue;
+            return "(line " + lineNumber + ") Type: " + type + ", value: " + realValue;
         else if (type == STRING && word != null)
-            return "\n (line " + lineNumber + ") Type: " + type + ", value: " + word;
+            return "(line " + lineNumber + ") Type: " + type + ", value: " + word;
         else if (type == BOOLEAN && boolValue != null)
-            return "\n (line " + lineNumber + ") Type: " + type + ", value: " + boolValue;
+            return "(line " + lineNumber + ") Type: " + type + ", value: " + boolValue;
         else if (type == ARRAY && arrayValue != null)
-            return "\n (line " + lineNumber + ") Type: " + type + ", value: " + Arrays.toString(arrayValue);
+            return "(line " + lineNumber + ") Type: " + type + ", value: " + Arrays.toString(arrayValue);
         else if (type == IDENTIFIER && word != null) 
-            return "\n(line " + lineNumber + ") Type: " + type + ", value: " + word;
-        else if (type == CHAR & charValue != null)
-            return "\n(line " + lineNumber + ") Type: " + type + ", value: " + charValue;
-        else return "\n(line " + lineNumber + ") Type: " + type;
+            return "(line " + lineNumber + ") Type: " + type + ", value: " + word;
+        else if (type == CHAR & charValue != null) {
+            return "(line " + lineNumber + ") Type: " + type + ", value: " + charValue;
+        }
+        else return "(line " + lineNumber + ") Type: " + type;
     }
 
     // --------------- Printing Lexemes as Parse Trees ---------------
@@ -179,7 +180,7 @@ public class Lexeme {
         for (int i = 0; i < numChildren; i++) {
             Lexeme child = root.getChild(i);
             treeString
-                    .append(spacer).append("(").append(i + 1).append(") ")
+                    .append(spacer).append("(").append("Child ").append(i + 1).append(") ")
                     .append(getPrintableTree(child, level + 1));
         }
     }

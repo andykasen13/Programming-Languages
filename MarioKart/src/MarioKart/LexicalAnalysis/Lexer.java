@@ -70,6 +70,8 @@ public class Lexer {
         keywords.put("boolean", BOOLEAN);
         keywords.put("string", STRING);
         keywords.put("array", ARRAY);
+        
+        keywords.put("print", PRINT);
 
         return keywords;
     }

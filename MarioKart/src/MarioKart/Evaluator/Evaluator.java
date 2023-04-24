@@ -40,6 +40,8 @@ public class Evaluator {
 
             case BINARY_EXPRESSION: return evalBinaryExpression(tree, environment);
 
+            case PRINT: return evalPrint(tree, environment);
+
             default: {
                 error("Cannor evaluate " + tree, tree);
                 return null;
@@ -105,9 +107,12 @@ public class Evaluator {
     }
 
     private Lexeme evalBinaryExpression(Lexeme tree, Environment environment) {
+        System.out.println("evaluating binary expression " + tree);
         Lexeme num1 = tree.getChild(0);
         Lexeme num2 = tree.getChild(2);
         Lexeme binaryOperator = tree.getChild(1);
+
+        System.out.println("\n\n\n\n\n\n" + tree.getChild(0).getIntValue() + " " + tree.getChild(1).getType() + " " + tree.getChild(2).getIntValue());
 
         //create an alphabet
         HashMap<Character, Integer> letterMap = new HashMap<>();
@@ -121,6 +126,14 @@ public class Evaluator {
         if(binaryOperator.getType() == PLUS) return (add(num1, num2));
 
         else return null;
+    }
+
+    private Lexeme evalPrint(Lexeme tree, Environment environment) {
+        Lexeme expression = eval(tree.getChild(0), environment);
+        if(expression == null) error("You tried to print something that does not exist.", tree.getLineNumber());
+        if(expression.getType() == IDENTIFIER) expression = environment.lookup(expression);
+        System.out.println(expression.toValueOnlyString());
+        return expression;
     }
 
 
@@ -339,11 +352,34 @@ public class Evaluator {
         if(num1.isInt()) {
             if(num2.isInt()) return new Lexeme(lineNum, num1.getIntValue() / num2.getIntValue(), INT);
             else if(num2.isReal()) return new Lexeme(lineNum, (double)num1.getIntValue() / num2.getRealValue(), REAL);
+            else if(num2.isString()) return new Lexeme(lineNum, (num1.getIntValue() <= num2.getWord().length()) ? num2.getWord().substring(0,num1.getIntValue()) : num2.getWord().repeat(num1.getIntValue()/num2.getWord().length()) + num2.getWord().substring(0,num1.getIntValue() % num2.getWord().length()),STRING);
+        } else if(num1.isReal()) {
+            if(num2.isInt()) return new Lexeme(lineNum, num1.getRealValue() / (double)num2.getIntValue(), REAL);
+            else if(num2.isReal()) return new Lexeme(lineNum, num1.getRealValue() / num2.getRealValue(), REAL);
+            else if(num2.isString()) return new Lexeme(lineNum, ((int)num1.getRealValue() <= num2.getWord().length()) ? num2.getWord().substring(0,(int)num1.getRealValue()) : num2.getWord().repeat((int)num1.getRealValue()/num2.getWord().length()) + num2.getWord().substring(0,(int)num1.getRealValue() % num2.getWord().length()),STRING);
+        } else if(num1.isString()) {
+            if(num2.isString()) return new Lexeme(lineNum, (num1.getWord().length() >= num2.getWord().length()) ? num1.getWord().substring(0, num2.getWord().length()) : num2.getWord().repeat(num2.getWord().length() - num1.getWord().length()), STRING);
+        } else if(num1.isBool()) {
+            if(num2.isBool()) return new Lexeme(lineNum, (num1.getBoolValue() == num2.getBoolValue()) ? 1 : 0, INT);
         }
 
         error("You tried to divide a type " + num2.getType() + " by a type " + num1.getType() + ". MarioKart does not support this.", lineNum);
         return null;
     }
+
+    public Lexeme modulus(Lexeme num1, Lexeme num2) {
+        int lineNum = num1.getLineNumber();
+
+        if(num1.isInt() && num2.isInt()) return new Lexeme(lineNum, num1.getIntValue() % num2.getIntValue(), INT);
+        else if(num1.isReal() && num2.isReal()) return new Lexeme(lineNum, num1.getRealValue() % num2.getRealValue(), REAL);
+        else if(num1.isString() && num2.isString()) return new Lexeme(lineNum, num1.getWord().length() - num2.getWord().length(), INT);
+        else if(num1.isBool() && num2.isBool()) return new Lexeme(lineNum, (num1.getBoolValue() == num2.getBoolValue()) ? 0 : 1, INT);
+
+        error("You tried to carry out an expression of type " + num1.getType() + " mod type" + num2.getType() + ". MarioKart does not support this.", lineNum);
+        return null;
+    }
+
+
 
 }
     

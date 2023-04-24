@@ -1,8 +1,8 @@
 package MarioKart.Environments;
 
 import java.util.ArrayList;
+
 import MarioKart.LexicalAnalysis.Lexeme;
-import MarioKart.Environments.NamedValue;
 import MarioKart.LexicalAnalysis.Type;
 import MarioKart.MarioKart;
 import static MarioKart.LexicalAnalysis.Type.*;
@@ -10,12 +10,11 @@ import static MarioKart.LexicalAnalysis.Type.*;
 public class Environment {
     //------------- Instance Varables -------------
     private Environment parentEnvironment;
-    private ArrayList<NamedValue> entries;
+    private ArrayList<NamedValue> entries = new ArrayList<NamedValue>();
 
     //------------- Constructors -------------
     public Environment(Environment parentEnvironment) {
         this.parentEnvironment = parentEnvironment;
-        this.entries = new ArrayList<NamedValue>();
     }
 
     public Environment() {
@@ -25,7 +24,9 @@ public class Environment {
     //------------- Core Environment Functions -------------
     private Lexeme softLookup(Lexeme identifier) {
         for(NamedValue namedValue : entries) {
-            return NamedValue.getValue();
+            if(namedValue.getName().equals(identifier)) {
+                return namedValue.getValue();
+            }
         }
         return null;
     }
@@ -46,8 +47,15 @@ public class Environment {
             error("A variable with the name '" + identifier.getWord() + "' is already defined and cannot be re-declared", identifier.getLineNumber());
         }
         else {
-            entries.add(new NamedValue(type, identifier));
-            System.out.println("added");
+            System.out.println("entries before" + entries);
+            ArrayList<Integer> a = new ArrayList<Integer>();
+            a.add(1);
+            a.add(2);
+            a.add(5);
+            System.out.println("why" + a);
+            NamedValue v = new NamedValue(type, identifier);
+            entries.add(v);
+            System.out.println("entries after" + entries.toString());
             if(value != null) update(identifier, value);
         }
     }
@@ -63,18 +71,20 @@ public class Environment {
         // Search this environment and update if found locally
         for(NamedValue namedValue : entries) {
             if(namedValue.getName().equals(identifier)) {
+
                 Type declaredType = namedValue.getType();
                 Type providedType = newValue.getType();
 
-                if(providedType != declaredType) {
+                if(providedType != declaredType) 
                     newValue = typeElevate(newValue, declaredType);
-                }
+                
 
-                if(newValue == null) {
+                if(newValue == null) 
                     error("Variable '" + identifier.getWord() + "' has been declared as type " + declaredType + " and cannot be assigned a value of type " + providedType, identifier.getLineNumber());
-                }
+                
 
                 namedValue.setValue(newValue);
+
 
                 // Whether a value of valid type was provided or not,
                 // quit looking once we find a match.
@@ -83,6 +93,7 @@ public class Environment {
         }
         // If no local match is found, try to update in the parent environment
         parentEnvironment.update(identifier, newValue);
+
     }
 
     public Lexeme typeElevate(Lexeme newValue, Type declaredType) {
@@ -160,7 +171,7 @@ public class Environment {
 
         String myString = ("------------------\n" + "Environment " + this.hashCode() + "\n\t" + soScuffed + "\n\t-----------" + "\n\tValues: ");
         for(NamedValue entry : entries) {
-            myString = myString + ("\n\t" + entry.toString());
+            myString = myString.concat("\n\t" + entry.toString());
         }
 
         return myString;
