@@ -39,10 +39,7 @@ This function takes in four ints, and returns a boolean. The `requires` keyword 
 ### Calling Functions
 The `summon` keyword initiates a function call. Example:
 ```
-summon collision using enemy1x, enemy2x, enemy1y, enemy2y {
- if x1 == x2 and y1 == y2 return true;
- else return false;
-}
+summon collision using enemy1x, enemy2x, enemy1y, enemy2y;
 ```
 Again, the `using` keyword is only used if the function has parameters.
 This function would return a value of `true` or `false` based on its parameters.
@@ -85,26 +82,27 @@ For MarioKart, `first` acts as `if`, `second`, `third`, `fourth`, and so on acts
 ## Operators and Comparators
 | Java Operator | MK Operator    |
 | -- |----------------|
-| `=` | `ties with`    |
+| `=` | `tiesWith`    |
 | `+` | `boost`        |
 | `-` | `slip`         |
-| `*` | `super star`   |
-| `/` | `blue shell`   |
+| `*` | `superStar`   |
+| `/` | `blueShell`   |
 | `%` | `%`            |
-| `+=` | `multi mushroom` |
-| `-=` | `red shell`      |
-| `*=` | `golden mushroom` |
-| `/=` | `fall off the map` |
+| `+=` | `multiMushroom` |
+| `-=` | `redShell`      |
+| `*=` | `goldenMushroom` |
+| `/=` | `fallOffTheMap` |
 | `++` | `overtake`       |
-| `--` | `get passed`     |
+| `--` | `getPassed`     |
 | `!` | `not`            |
-| `==` | `is tied with`   |
-| `!=` | `is not tied with` |
-| `>` | `is further than` |
-| `>=` | `is better than` |
-| `<` | `is behind`      |
-| `<=` | `is worse than`  |
+| `==` | `isTiedWith`   |
+| `!=` | `isNotTiesWith` |
+| `>` | `isFurtherThan` |
+| `>=` | `isBetterThan` |
+| `<` | `isBehind`      |
+| `<=` | `isWorseThan`  |
 | `&&` | `and`            |
+| `or` | `or` |
 
 ## Collections
 ### Creation
@@ -135,6 +133,10 @@ To clear an entire `garage`, use the following command:
 ### ???
 
 `blueshell enemy1Stats;`
+
+### print
+To print, simply use:
+```print "Hello World!";```
 
 Keywords
 | keyword | java alternative |
