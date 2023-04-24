@@ -21,7 +21,7 @@ If you need to **initialize** a new variable, simply follow this syntax:
 `String enemy1Name tiesWith "Todd";`
 
 ### Typing
-Variables are **not** dynamic. Once something is declared ann `int`, it must remain an `int`. 
+Variables are **not** dynamic. Once something is declared an `int`, it must remain an `int`. 
 
 Casting and type-switching are not allowed in MarioKart.
 
