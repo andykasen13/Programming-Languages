@@ -8,7 +8,7 @@ When **creating** a new variable, initialize it using `spawn`, followed by the t
 
 `spawn int enemy1;`
 
-GameStyle supports `int`, `String`, and `boolean`. ints will declare it with a value of `0`. Strings declare to `""`, and booleans declare to `true`.
+GameStyle supports `int`, `String`, `char`, `real`, and `boolean`. ints will declare it with a value of `0`. Strings declare to `""`, and booleans declare to `true`.
 
 ### Assignment
 If you need to **assign** a new value to a variable, simply follow this syntax: 
