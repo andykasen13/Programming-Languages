@@ -4,37 +4,37 @@
 
 ## Variables
 ### Declaration
-When **creating** a new variable, initialize it using `spawn`, followed by the type afterwards. 
+When **creating** a new variable, initialize it using the data type followed by the identifier.
 
-`spawn int enemy1;`
+`int enemy1;`
 
-GameStyle supports `int`, `String`, `char`, `real`, and `boolean`. ints will declare it with a value of `0`. Strings declare to `""`, and booleans declare to `true`.
+MarioKart supports `int`, `String`, `char`, `real`, and `boolean`. ints will declare it with a value of `0`. Strings declare to `""`, chars to `''`, reals to `0.0`, and booleans to `true`.
 
 ### Assignment
 If you need to **assign** a new value to a variable, simply follow this syntax: 
 
-`enemy1 = "new value";`
+`enemy1 tiesWith 3;`
 
 ### Initialization
 If you need to **initialize** a new variable, simply follow this syntax: 
 
-`spawn String enemy1Name = "Todd";`
+`String enemy1Name tiesWith "Todd";`
 
 ### Typing
 Variables are **not** dynamic. Once something is declared ann `int`, it must remain an `int`. 
 
-Casting and type-switching are not allowed in GameStyle.
+Casting and type-switching are not allowed in MarioKart.
 
 ## Functions
 ### Defining a Function
-Defining a function in GameStyle requires an output type, a name, and optional parameters (each with their own types). Example:
+Defining a function in MarioKart requires an output type, a name, and optional parameters (each with their own types). Example:
 ```
 boolean collision requires int x1, int x2, int y1, int y2 {
 if x1 == x2 and y1 == y2 return true;
 else return false;
 }
 ```
-This function takes in four ints, and returns a boolean. The `requires` keyword is how you signify parameters in GameStyle - if your function has no parameters, you do not need this keyword whatsoever.
+This function takes in four ints, and returns a boolean. The `requires` keyword is how you signify parameters in MarioKart - if your function has no parameters, you do not need this keyword whatsoever.
 
 ### Calling Functions
 The `summon` keyword initiates a function call. Example:
@@ -136,6 +136,7 @@ To clear an entire `garage`, use the following command:
 
 ### print
 To print, simply use:
+
 ```print "Hello World!";```
 
 Keywords
