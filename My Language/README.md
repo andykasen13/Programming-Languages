@@ -30,8 +30,8 @@ Casting and type-switching are not allowed in MarioKart.
 Defining a function in MarioKart requires an output type, a name, and optional parameters (each with their own types). Example:
 ```
 boolean collision requires int x1, int x2, int y1, int y2 {
-if x1 == x2 and y1 == y2 return true;
-else return false;
+   if x1 == x2 and y1 == y2 return true;
+   else return false;
 }
 ```
 This function takes in four ints, and returns a boolean. The `requires` keyword is how you signify parameters in MarioKart - if your function has no parameters, you do not need this keyword whatsoever.
