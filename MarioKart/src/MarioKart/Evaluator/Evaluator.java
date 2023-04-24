@@ -107,12 +107,9 @@ public class Evaluator {
     }
 
     private Lexeme evalBinaryExpression(Lexeme tree, Environment environment) {
-        System.out.println("evaluating binary expression " + tree);
         Lexeme num1 = tree.getChild(0);
         Lexeme num2 = tree.getChild(2);
         Lexeme binaryOperator = tree.getChild(1);
-
-        System.out.println("\n\n\n\n\n\n" + tree.getChild(0).getIntValue() + " " + tree.getChild(1).getType() + " " + tree.getChild(2).getIntValue());
 
         //create an alphabet
         HashMap<Character, Integer> letterMap = new HashMap<>();

@@ -15,6 +15,7 @@ public class Environment {
     //------------- Constructors -------------
     public Environment(Environment parentEnvironment) {
         this.parentEnvironment = parentEnvironment;
+        this.entries = new ArrayList<>();
     }
 
     public Environment() {
@@ -47,15 +48,25 @@ public class Environment {
             error("A variable with the name '" + identifier.getWord() + "' is already defined and cannot be re-declared", identifier.getLineNumber());
         }
         else {
+            // print out the entries before adding new element
             System.out.println("entries before" + entries);
+
+            // test to see if other arraylists work
             ArrayList<Integer> a = new ArrayList<Integer>();
             a.add(1);
             a.add(2);
             a.add(5);
             System.out.println("why" + a);
+
+            // test to see if named value needs to be initialized outside of .add function
             NamedValue v = new NamedValue(type, identifier);
+
+            // add the element
             entries.add(v);
-            System.out.println("entries after" + entries.toString());
+
+            // print the entries after adding the new element
+            System.out.println("entries after" + entries.toString() + "\n");
+
             if(value != null) update(identifier, value);
         }
     }

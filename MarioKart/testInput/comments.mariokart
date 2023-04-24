@@ -1,9 +1,6 @@
 int x tiesWith 3;
 
-print 5;
-print 3;
-
 int var1 tiesWith 5;
 
 int var2 tiesWith 3 boost 5;
-print yeah;
+print var2;

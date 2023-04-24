@@ -1,8 +1,0 @@
-int helpMe = 5;
-
-helpMe++;
-helpMe overtake;
-
-int blaBla = 19;
-
-int helpBla tiesWith helpMe boost blaBla;
