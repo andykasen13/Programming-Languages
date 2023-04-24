@@ -66,10 +66,10 @@ This loop just goes iterates by 1 until it gets to 18 (inclusive).
 ### Conditionals
 Conditionals are written like this:
 ```
-first "x1 = 15" {
+first "x1 isTiedWith 15" {
  return "correct!";
 }
-second "x1 > 15" {
+second "x1 isFurtherThan 15" {
  return "too high!";
 }
 last {
@@ -111,7 +111,7 @@ MarioKart uses `garages` to store variables. `garage`s are not restricted to a t
 
 ### Modification
 To modify a specific space in a `garage`, use the following syntax:
-```enemy1Stats[3] = "defeated";```
+```enemy1Stats[3] tiesWith "defeated";```
 
 ### Access and Deletion
 To access a specific space in a `garage`, use the following syntax:
@@ -130,10 +130,6 @@ To clear an entire `garage`, use the following command:
 
 ```setAblaze enemy1Stats;```
 
-### ???
-
-`blueshell enemy1Stats;`
-
 ### print
 To print, simply use:
 
@@ -142,13 +138,22 @@ To print, simply use:
 Keywords
 | keyword | java alternative |
 | ------- | ---------------- |
-| spawn | new |
 | garage | array |
 | time trial | for / while |
 | summon | func |
 | requires | () |
 | first | if |
 | second | else if |
+| third | else if |
+| fourth | else if |
+| fifth | else if | 
+| sixth | else if |
+| seventh | else if |
+| eighth | else if |
+| ninth | else if |
+| tenth | else if |
+| eleventh | else if |
+| twelfth | else |
 | last | else |
 
 ### Google Sheet
