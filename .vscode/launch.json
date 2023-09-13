@@ -6,16 +6,25 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Current File",
+            "name": "EnvironmentTest",
             "request": "launch",
-            "mainClass": "${file}"
+            "mainClass": "MarioKart.Environments.EnvironmentTest",
+            "projectName": "MarioKart_7e87e715"
+        },
+        {
+            "type": "java",
+            "name": "Launch Current File",
+            "request": "launch",
+            "mainClass": "${file}",
+            "args": "\"/Users/andrewgarcha/Documents/Programming-Languages/MarioKart/testInput/comments.mariokart\""
         },
         {
             "type": "java",
             "name": "MarioKart",
             "request": "launch",
             "mainClass": "MarioKart.MarioKart",
-            "projectName": "Programming-Languages_9932b948"
+            "projectName": "MarioKart_7e87e715",
+            "args": "/Users/andrewgarcha/Documents/Programming-Languages/MarioKart/testInput/comments.mariokart"
         }
     ]
 }
